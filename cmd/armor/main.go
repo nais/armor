@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/nais/armorator/config"
-	"github.com/nais/armorator/pkg/handler"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/nais/armor/config"
+	"github.com/nais/armor/pkg/handler"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {

@@ -2,13 +2,14 @@ package handler
 
 import (
 	"context"
-	"github.com/gorilla/mux"
-	"github.com/nais/armorator/config"
-	"github.com/sirupsen/logrus"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/gorilla/mux"
+	"github.com/nais/armor/config"
+	"github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler_GetPolicy(t *testing.T) {

@@ -3,12 +3,13 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/nais/armorator/pkg/model"
-	"github.com/sirupsen/logrus"
-	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/nais/armor/pkg/model"
+	"github.com/sirupsen/logrus"
+	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 )
 
 const (

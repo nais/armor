@@ -2,11 +2,12 @@ package handler
 
 import (
 	"context"
-	"github.com/gorilla/mux"
-	"github.com/nais/armorator/config"
-	"github.com/nais/armorator/pkg/google"
-	"github.com/sirupsen/logrus"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/nais/armor/config"
+	"github.com/nais/armor/pkg/google"
+	"github.com/sirupsen/logrus"
 )
 
 type Application struct {

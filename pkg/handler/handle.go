@@ -5,13 +5,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/nais/armorator/pkg/google"
-	"github.com/sirupsen/logrus"
-	"google.golang.org/api/googleapi"
-	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 	"net/http"
 	"regexp"
 	"strconv"
+
+	"github.com/nais/armor/pkg/google"
+	"github.com/sirupsen/logrus"
+	"google.golang.org/api/googleapi"
+	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 )
 
 type Handler struct {
