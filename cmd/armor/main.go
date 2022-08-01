@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/nais/armor/pkg/google"
 	"net/http"
 	"os"
 	"os/signal"
@@ -25,7 +26,8 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 	defer stop()
 
-	app := handler.NewApp(ctx, cfg, log.WithField("system", "armor"))
+	googleClient := google.NewClient(cfg, ctx, log.WithField("component", "armor-client"))
+	app := handler.NewApp(ctx, googleClient, log.WithField("system", "armor"))
 
 	h := handler.NewHandler(app)
 	router := app.SetupHttpRouter(h)

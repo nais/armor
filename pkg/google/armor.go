@@ -1,10 +1,9 @@
 package google
 
 import (
+	compute "cloud.google.com/go/compute/apiv1"
 	"context"
 	"fmt"
-
-	compute "cloud.google.com/go/compute/apiv1"
 	"github.com/nais/armor/config"
 	"github.com/sirupsen/logrus"
 	computepb "google.golang.org/genproto/googleapis/cloud/compute/v1"

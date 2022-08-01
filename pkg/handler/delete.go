@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	EndpointDeletePolicy = "/{project}/policy/{policy}"
-	EndpointDeleteRule   = "/{project}/policy/{policy}/rule/{priority}"
+	EndpointDeletePolicy = "/projects/{project}/policies/{policy}"
+	EndpointDeleteRule   = "/projects/{project}/policies/{policy}/rules/{priority}"
 )
 
 func (h *Handler) DeletePolicy(w http.ResponseWriter, r *http.Request) {

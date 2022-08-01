@@ -10,9 +10,9 @@ import (
 )
 
 const (
-	EndpointGetPolicy   = "/{project}/policy/{policy}"
-	EndpointGetPolicies = "/{project}/policies"
-	EndpointGetRule     = "/{project}/policy/{policy}/rule/{priority}"
+	EndpointGetPolicy   = "/projects/{project}/policies/{policy}"
+	EndpointGetPolicies = "/projects/{project}/policies"
+	EndpointGetRule     = "/projects/{project}/policies/{policy}/rules/{priority}"
 )
 
 func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {

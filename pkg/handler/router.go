@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/nais/armor/config"
 	"github.com/nais/armor/pkg/google"
 	"github.com/sirupsen/logrus"
 )
@@ -17,10 +16,10 @@ type Application struct {
 	Context context.Context
 }
 
-func NewApp(ctx context.Context, cfg *config.Config, log *logrus.Entry) *Application {
+func NewApp(ctx context.Context, client *google.Client, log *logrus.Entry) *Application {
 	return &Application{
 		Router:  mux.NewRouter().StrictSlash(true),
-		Client:  google.NewClient(cfg, ctx, log.WithField("component", "security-client")),
+		Client:  client,
 		Log:     log,
 		Context: ctx,
 	}

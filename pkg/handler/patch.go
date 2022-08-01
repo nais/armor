@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	EndpointUpdatePolicy = "/{project}/policy/{policy}"
-	EndpointUpdateRule   = "/{project}/policy/{policy}/rule/{priority}"
+	EndpointUpdatePolicy = "/projects/{project}/policies/{policy}"
+	EndpointUpdateRule   = "/projects/{project}/policies/{policy}/rules/{priority}"
 )
 
 func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
