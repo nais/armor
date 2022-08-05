@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: $${IMAGE}
+          tags: ${{ env.IMAGE }}
 
   deploy-dev-gcp:
     name: Deploy to dev-gcp
