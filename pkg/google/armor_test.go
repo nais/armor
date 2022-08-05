@@ -112,8 +112,10 @@ func GoogleApiServer(existingPolicy string, exists bool) (context.Context, *Clie
 
 	ctx := context.Background()
 	testServer := httptest.NewServer(fake.NewSecurityPoliciesRESTClient(existingPolicy, exists))
-	optsAuth := option.WithoutAuthentication()
-	optsEndpoint := option.WithEndpoint(testServer.URL)
-	fakeClient := NewClient(cfg, ctx, log.WithField("component", "fake-client"), optsAuth, optsEndpoint)
+	opts := []option.ClientOption{
+		option.WithEndpoint(testServer.URL),
+		option.WithoutAuthentication(),
+	}
+	fakeClient := NewClient(cfg, ctx, log.WithField("component", "fake-client"), opts...)
 	return ctx, fakeClient, nil
 }
