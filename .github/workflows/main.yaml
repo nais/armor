@@ -3,7 +3,7 @@ name: Build, push, and deploy to GCP
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - "doc/**"
       - "**/*.md"
