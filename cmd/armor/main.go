@@ -18,7 +18,7 @@ func main() {
 	log := logrus.New()
 	log.Formatter = &logrus.JSONFormatter{}
 
-	cfg, err := setupConfig()
+	cfg, err := SetupConfig()
 	if err != nil {
 		log.WithError(err).Fatal("new config")
 	}
@@ -26,7 +26,7 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 	defer stop()
 
-	googleClient := google.NewClient(cfg, ctx, log.WithField("component", "armor-client"))
+	googleClient := google.NewClient(cfg, ctx, log.WithField("component", "armor-client"), nil)
 	app := handler.NewApp(ctx, googleClient, log.WithField("system", "armor"))
 
 	h := handler.NewHandler(app)
@@ -40,7 +40,7 @@ func main() {
 
 	log.WithField("addr", fmt.Sprintf("%s", cfg.Port)).Info("starting server")
 	ctx, cancel := context.WithCancel(ctx)
-	go logErr(log, cancel, func() error { return http.ListenAndServe(cfg.Port, router) })
+	go LogError(log, cancel, func() error { return http.ListenAndServe(cfg.Port, router) })
 
 	<-ctx.Done()
 
@@ -55,14 +55,14 @@ func main() {
 	}
 }
 
-func logErr(log *logrus.Logger, cancel context.CancelFunc, fn func() error) {
+func LogError(log *logrus.Logger, cancel context.CancelFunc, fn func() error) {
 	if err := fn(); err != nil {
 		cancel()
 		log.WithError(err).Error("error")
 	}
 }
 
-func setupConfig() (*config.Config, error) {
+func SetupConfig() (*config.Config, error) {
 	cfg, err := config.NewConfig()
 	if err != nil {
 		return nil, err

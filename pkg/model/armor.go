@@ -20,7 +20,7 @@ type ArmorRequestRule struct {
 func (in *ArmorRequestPolicy) ParsePolicy() (*compute.SecurityPolicy, error) {
 	var instance *compute.SecurityPolicy
 
-	requestPolicy, err := toBytes(in.SecurityPolicy)
+	requestPolicy, err := ToBytes(in.SecurityPolicy)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (in *ArmorRequestPolicy) ParsePolicy() (*compute.SecurityPolicy, error) {
 func (in *ArmorRequestRule) ParseRule() (*compute.SecurityPolicyRule, error) {
 	var instance *compute.SecurityPolicyRule
 
-	requestRule, err := toBytes(in.SecurityPolicyRule)
+	requestRule, err := ToBytes(in.SecurityPolicyRule)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (in *ArmorRequestRule) ParseRule() (*compute.SecurityPolicyRule, error) {
 }
 
 func (in *ArmorRequestPolicy) MergePolicy(dest, requestPolicy *compute.SecurityPolicy) error {
-	policyUpdate, err := toBytes(in.SecurityPolicy)
+	policyUpdate, err := ToBytes(in.SecurityPolicy)
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func (in *ArmorRequestPolicy) MergePolicy(dest, requestPolicy *compute.SecurityP
 }
 
 func (in *ArmorRequestRule) MergeRule(dest, requestRule *compute.SecurityPolicyRule) error {
-	ruleUpdate, err := toBytes(in.SecurityPolicyRule)
+	ruleUpdate, err := ToBytes(in.SecurityPolicyRule)
 	if err != nil {
 		return err
 	}
@@ -87,7 +87,7 @@ func (in *ArmorRequestRule) MergeRule(dest, requestRule *compute.SecurityPolicyR
 	return nil
 }
 
-func toBytes(resource interface{}) ([]byte, error) {
+func ToBytes(resource interface{}) ([]byte, error) {
 	reqBodyBytes := new(bytes.Buffer)
 	err := json.NewEncoder(reqBodyBytes).Encode(resource)
 	if err != nil {

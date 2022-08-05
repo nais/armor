@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/nais/armor/config"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/api/option"
 	computepb "google.golang.org/genproto/googleapis/cloud/compute/v1"
 )
 
@@ -15,12 +16,16 @@ type Client struct {
 	Config *config.Config
 }
 
-func NewClient(cfg *config.Config, ctx context.Context, log *logrus.Entry) *Client {
+func NewClient(cfg *config.Config, ctx context.Context, log *logrus.Entry, opts ...option.ClientOption) *Client {
 	c, err := compute.NewSecurityPoliciesRESTClient(ctx)
+	if opts != nil && len(opts) > 0 {
+		c, err = compute.NewSecurityPoliciesRESTClient(ctx, opts...)
+	}
+
 	if err != nil {
 		fmt.Printf("NewInstancesRESTClient: %v", err)
 	}
-	log.Info("created armored client")
+	log.Info("created new NewInstancesRESTClient")
 
 	return &Client{
 		log:    log,
@@ -70,25 +75,6 @@ func (in *Client) CreatePolicy(ctx context.Context, policy *computepb.SecurityPo
 	return op.Done(), nil
 }
 
-func (in *Client) DeletePolicy(ctx context.Context, projectID, policyName string) (bool, error) {
-	req := &computepb.DeleteSecurityPolicyRequest{
-		SecurityPolicy: policyName,
-		Project:        projectID,
-	}
-
-	op, err := in.Client.Delete(ctx, req)
-	if err != nil {
-		return false, fmt.Errorf("delete policy: %w", err)
-	}
-
-	err = op.Wait(ctx)
-	if err != nil {
-		return false, fmt.Errorf("wait policy: %w", err)
-	}
-
-	return op.Done(), nil
-}
-
 func (in *Client) UpdatePolicy(ctx context.Context, policy *computepb.SecurityPolicy, projectID, policyName string) (bool, error) {
 	req := &computepb.PatchSecurityPolicyRequest{
 		SecurityPolicy:         policyName,
@@ -99,6 +85,25 @@ func (in *Client) UpdatePolicy(ctx context.Context, policy *computepb.SecurityPo
 	op, err := in.Client.Patch(ctx, req)
 	if err != nil {
 		return false, fmt.Errorf("update policy: %w", err)
+	}
+
+	err = op.Wait(ctx)
+	if err != nil {
+		return false, fmt.Errorf("wait policy: %w", err)
+	}
+
+	return op.Done(), nil
+}
+
+func (in *Client) DeletePolicy(ctx context.Context, projectID, policyName string) (bool, error) {
+	req := &computepb.DeleteSecurityPolicyRequest{
+		SecurityPolicy: policyName,
+		Project:        projectID,
+	}
+
+	op, err := in.Client.Delete(ctx, req)
+	if err != nil {
+		return false, fmt.Errorf("delete policy: %w", err)
 	}
 
 	err = op.Wait(ctx)

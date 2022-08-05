@@ -1,0 +1,15 @@
+{
+  "action": "allow",
+  "description": "test rule",
+  "kind": "compute#securityPolicyRule",
+  "match": {
+    "config": {
+      "src_ip_ranges": [
+        "*"
+      ]
+    },
+    "versioned_expr": "SRC_IPS_V1"
+  },
+  "preview": false,
+  "priority": 0
+}

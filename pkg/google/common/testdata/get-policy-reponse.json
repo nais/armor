@@ -1,0 +1,62 @@
+{
+  "adaptive_protection_config": {
+    "layer7_ddos_defense_config": {
+      "enable": false
+    }
+  },
+  "creation_timestamp": "2022-06-07T15:05:29.844-07:00",
+  "description": "test policy YOLO",
+  "fingerprint": "PmCPeyUTcuA=",
+  "id": 5663025914644165958,
+  "kind": "compute#securityPolicy",
+  "name": "test-2",
+  "rules": [
+    {
+      "action": "allow",
+      "description": "test rule",
+      "kind": "compute#securityPolicyRule",
+      "match": {
+        "config": {
+          "src_ip_ranges": [
+            "*"
+          ]
+        },
+        "versioned_expr": "SRC_IPS_V1"
+      },
+      "preview": false,
+      "priority": 0
+    },
+    {
+      "action": "deny(403)",
+      "description": "test rule",
+      "kind": "compute#securityPolicyRule",
+      "match": {
+        "config": {
+          "src_ip_ranges": [
+            "*"
+          ]
+        },
+        "versioned_expr": "SRC_IPS_V1"
+      },
+      "preview": false,
+      "priority": 1
+    },
+    {
+      "action": "deny(403)",
+      "description": "Default rule, higher priority overrides it",
+      "kind": "compute#securityPolicyRule",
+      "match": {
+        "config": {
+          "src_ip_ranges": [
+            "*"
+          ]
+        },
+        "versioned_expr": "SRC_IPS_V1"
+      },
+      "preview": false,
+      "priority": 2147483647
+    }
+  ],
+  "self_link": "https://www.googleapis.com/compute/v1/projects/fake-project/global/securityPolicies/test-2",
+  "type": "CLOUD_ARMOR"
+}

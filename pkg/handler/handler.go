@@ -34,6 +34,50 @@ func NewHandler(app *Application) *Handler {
 	}
 }
 
+func (h *Handler) getPolicy(projectID, policy string) (*compute.SecurityPolicy, error) {
+	resource, err := h.client.GetPolicy(h.ctx, projectID, policy)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (h *Handler) getRule(priority *int32, projectID, policy string) (*compute.SecurityPolicyRule, error) {
+	resource, err := h.client.GetRule(h.ctx, priority, projectID, policy)
+	if err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+func (h *Handler) HttpError(err error, w http.ResponseWriter, projectID, resource string) bool {
+	if ErrorType(err, http.StatusNotFound) {
+		w.WriteHeader(http.StatusNotFound)
+		return false
+	}
+	if ErrorType(err, http.StatusBadRequest) {
+		h.log.Warnf("%s: %v", resource, err)
+		http.Error(w, fmt.Sprintf("%s resource %s: %s", resource, projectID, err.Error()), http.StatusBadRequest)
+		return false
+	}
+	if ErrorType(err, http.StatusConflict) {
+		h.log.Warnf("failed %s: %v", resource, err)
+		http.Error(w, fmt.Sprintf("%s exists in %s", resource, projectID), http.StatusConflict)
+		return false
+	}
+	return true
+}
+
+func ErrorType(err error, code int) bool {
+	var e *googleapi.Error
+	if ok := errors.As(err, &e); ok {
+		if e.Code == code {
+			return true
+		}
+	}
+	return false
+}
+
 func policiesResponse(w http.ResponseWriter, policies []*compute.SecurityPolicy) {
 	err := json.NewEncoder(w).Encode(policies)
 	if err != nil {
@@ -79,48 +123,4 @@ func parseInt(i string) (int32, error) {
 		return int32(0), err
 	}
 	return int32(p), nil
-}
-
-func ErrorType(err error, code int) bool {
-	var e *googleapi.Error
-	if ok := errors.As(err, &e); ok {
-		if e.Code == code {
-			return true
-		}
-	}
-	return false
-}
-
-func (h *Handler) getPolicy(projectID, policy string) (*compute.SecurityPolicy, error) {
-	resource, err := h.client.GetPolicy(h.ctx, projectID, policy)
-	if err != nil {
-		return nil, err
-	}
-	return resource, nil
-}
-
-func (h *Handler) getRule(priority *int32, projectID, policy string) (*compute.SecurityPolicyRule, error) {
-	resource, err := h.client.GetRule(h.ctx, priority, projectID, policy)
-	if err != nil {
-		return nil, err
-	}
-	return resource, nil
-}
-
-func (h *Handler) HttpError(err error, w http.ResponseWriter, projectID, resource string) bool {
-	if ErrorType(err, http.StatusNotFound) {
-		w.WriteHeader(http.StatusNotFound)
-		return false
-	}
-	if ErrorType(err, http.StatusBadRequest) {
-		h.log.Warnf("%s: %v", resource, err)
-		http.Error(w, fmt.Sprintf("%s resource %s: %s", resource, projectID, err.Error()), http.StatusBadRequest)
-		return false
-	}
-	if ErrorType(err, http.StatusConflict) {
-		h.log.Warnf("failed %s: %v", resource, err)
-		http.Error(w, fmt.Sprintf("%s exists in %s", resource, projectID), http.StatusConflict)
-		return false
-	}
-	return true
 }
