@@ -26,17 +26,16 @@ func NewApp(ctx context.Context, client *google.Client, log *logrus.Entry) *Appl
 }
 
 func (a *Application) SetupHttpRouter(h *Handler) *mux.Router {
-	router := mux.NewRouter().StrictSlash(true)
 	// Policy
-	router.HandleFunc(EndpointGetPolicy, h.GetPolicy).Methods(http.MethodGet)
-	router.HandleFunc(EndpointGetPolicies, h.GetPolicies).Methods(http.MethodGet)
-	router.HandleFunc(EndpointCreatePolicy, h.CreatePolicy).Methods(http.MethodPost)
-	router.HandleFunc(EndpointUpdatePolicy, h.UpdatePolicy).Methods(http.MethodPatch)
-	router.HandleFunc(EndpointDeletePolicy, h.DeletePolicy).Methods(http.MethodDelete)
+	a.Router.HandleFunc(EndpointGetPolicy, h.GetPolicy).Methods(http.MethodGet)
+	a.Router.HandleFunc(EndpointGetPolicies, h.GetPolicies).Methods(http.MethodGet)
+	a.Router.HandleFunc(EndpointCreatePolicy, h.CreatePolicy).Methods(http.MethodPost)
+	a.Router.HandleFunc(EndpointUpdatePolicy, h.UpdatePolicy).Methods(http.MethodPatch)
+	a.Router.HandleFunc(EndpointDeletePolicy, h.DeletePolicy).Methods(http.MethodDelete)
 	// Rule
-	router.HandleFunc(EndpointGetRule, h.GetRule).Methods(http.MethodGet)
-	router.HandleFunc(EndpointCreateRule, h.CreateRule).Methods(http.MethodPost)
-	router.HandleFunc(EndpointUpdateRule, h.UpdateRule).Methods(http.MethodPatch)
-	router.HandleFunc(EndpointDeleteRule, h.DeleteRule).Methods(http.MethodDelete)
-	return router
+	a.Router.HandleFunc(EndpointGetRule, h.GetRule).Methods(http.MethodGet)
+	a.Router.HandleFunc(EndpointCreateRule, h.CreateRule).Methods(http.MethodPost)
+	a.Router.HandleFunc(EndpointUpdateRule, h.UpdateRule).Methods(http.MethodPatch)
+	a.Router.HandleFunc(EndpointDeleteRule, h.DeleteRule).Methods(http.MethodDelete)
+	return a.Router
 }

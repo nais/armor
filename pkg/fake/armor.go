@@ -9,8 +9,6 @@ import (
 
 func NewSecurityPoliciesRESTClient(policy string, exists bool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		println(r.URL.Path)
-		println(r.Method)
 		switch {
 		// GET security policies and rules
 		case r.Method == http.MethodGet:
