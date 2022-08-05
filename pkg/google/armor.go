@@ -25,7 +25,7 @@ func NewClient(cfg *config.Config, ctx context.Context, log *logrus.Entry, opts 
 	if err != nil {
 		fmt.Printf("NewInstancesRESTClient: %v", err)
 	}
-	log.Info("created new NewInstancesRESTClient")
+	log.Info("created NewInstancesRESTClient")
 
 	return &Client{
 		log:    log,

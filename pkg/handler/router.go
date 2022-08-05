@@ -26,6 +26,8 @@ func NewApp(ctx context.Context, client *google.Client, log *logrus.Entry) *Appl
 }
 
 func (a *Application) SetupHttpRouter(h *Handler) *mux.Router {
+	a.Router.HandleFunc(EndpointIsAlive, h.isAlive).Methods(http.MethodGet)
+	a.Router.HandleFunc(EndpointIsReady, h.isReady).Methods(http.MethodGet)
 	// Policy
 	a.Router.HandleFunc(EndpointGetPolicy, h.GetPolicy).Methods(http.MethodGet)
 	a.Router.HandleFunc(EndpointGetPolicies, h.GetPolicies).Methods(http.MethodGet)

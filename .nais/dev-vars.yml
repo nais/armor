@@ -1,0 +1,8 @@
+app: armor
+namespace: plattformsikkerhet
+team: plattformsikkerhet
+ingresses:
+  - https://armor.dev-gcp.nais.io
+replicas:
+  min: 1
+  max: 1

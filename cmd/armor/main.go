@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/nais/armor/pkg/google"
+	"google.golang.org/api/option"
 	"net/http"
 	"os"
 	"os/signal"
@@ -26,7 +27,8 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 	defer stop()
 
-	googleClient := google.NewClient(cfg, ctx, log.WithField("component", "armor-client"), nil)
+	var opts []option.ClientOption
+	googleClient := google.NewClient(cfg, ctx, log.WithField("component", "armor-client"), opts...)
 	app := handler.NewApp(ctx, googleClient, log.WithField("system", "armor"))
 
 	h := handler.NewHandler(app)

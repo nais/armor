@@ -1,0 +1,40 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  name: {{app}}
+  namespace: {{namespace}}
+  labels:
+    team: {{team}}
+  annotations:
+    config.alpha.linkerd.io/proxy-wait-before-exit-seconds: "10"
+spec:
+  image: {{ image }}
+  port: 8080
+  replicas:
+    min: {{replicas.min}}
+    max: {{replicas.max}}
+    cpuThresholdPercentage: 50
+  liveness:
+    path: /internal/isalive
+    initialDelay: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  readiness:
+    path: /internal/isready
+    initialDelay: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  prometheus:
+    enabled: true
+    path: /internal/metrics
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  ingresses:
+  {{#each ingresses as |url|}}
+     - {{url}}
+  {{/each}}
