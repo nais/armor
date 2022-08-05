@@ -35,14 +35,14 @@ func main() {
 	router := app.SetupHttpRouter(h)
 
 	server := http.Server{
-		Addr:              cfg.Port,
+		Addr:              ":8080",
 		ReadHeaderTimeout: 3 * time.Second,
 		IdleTimeout:       10 * time.Minute,
 	}
 
-	log.WithField("addr", fmt.Sprintf("%s", cfg.Port)).Info("starting server")
+	log.WithField("addr", fmt.Sprintf("%s", ":8080")).Info("starting server")
 	ctx, cancel := context.WithCancel(ctx)
-	go LogError(log, cancel, func() error { return http.ListenAndServe(cfg.Port, router) })
+	go LogError(log, cancel, func() error { return http.ListenAndServe(":8080", router) })
 
 	<-ctx.Done()
 
