@@ -22,8 +22,6 @@ func NewSecurityClient(cfg *config.Config, ctx context.Context, log *logrus.Entr
 		c, err = compute.NewSecurityPoliciesRESTClient(ctx, opts...)
 	}
 
-	defer c.Close()
-
 	if err != nil {
 		fmt.Printf("NewInstancesRESTClient: %v", err)
 	}

@@ -9,9 +9,10 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
-	"net/http/httptest"
 	"testing"
 )
+
+var ctx = context.Background()
 
 func Test_ListPolicies(t *testing.T) {
 	for _, test := range []struct {
@@ -31,7 +32,9 @@ func Test_ListPolicies(t *testing.T) {
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
-			ctx, fakeClient, err := GoogleApiServer(test.policyName, test.exists)
+			opts, err := fake.SecurityApiServer(test.policyName, test.exists)
+			assert.NoError(t, err)
+			fakeClient, err := FakeSecurityClient(ctx, opts)
 			assert.NoError(t, err)
 
 			it := fakeClient.ListPolicies(ctx, test.project)
@@ -50,7 +53,9 @@ func Test_ListPolicies(t *testing.T) {
 
 func Test_GetPolicy(t *testing.T) {
 	existingPolicy := "test-2"
-	ctx, fakeClient, err := GoogleApiServer(existingPolicy, true)
+	opts, err := fake.SecurityApiServer(existingPolicy, true)
+	assert.NoError(t, err)
+	fakeClient, err := FakeSecurityClient(ctx, opts)
 	assert.NoError(t, err)
 
 	res, err := fakeClient.GetPolicy(ctx, "fake-project", "test-2")
@@ -68,7 +73,9 @@ func Test_GetPolicy(t *testing.T) {
 
 func Test_GetRule(t *testing.T) {
 	existingRulePriority := int32(0)
-	ctx, fakeClient, err := GoogleApiServer("test-2", true)
+	opts, err := fake.SecurityApiServer("test-2", true)
+	assert.NoError(t, err)
+	fakeClient, err := FakeSecurityClient(ctx, opts)
 	assert.NoError(t, err)
 
 	res, err := fakeClient.GetRule(ctx, &existingRulePriority, "fake-project", "test-2")
@@ -82,7 +89,9 @@ func Test_UpdatePolicy(t *testing.T) {
 		Description: &description,
 	}
 
-	ctx, fakeClient, err := GoogleApiServer("test-2", true)
+	opts, err := fake.SecurityApiServer("test-2", true)
+	assert.NoError(t, err)
+	fakeClient, err := FakeSecurityClient(ctx, opts)
 	assert.NoError(t, err)
 
 	res, err := fakeClient.UpdatePolicy(ctx, securityPolicy, "fake-project", "test-2")
@@ -96,7 +105,9 @@ func Test_UpdateRule(t *testing.T) {
 		Description: &description,
 	}
 
-	ctx, fakeClient, err := GoogleApiServer("test-2", true)
+	opts, err := fake.SecurityApiServer("test-2", true)
+	assert.NoError(t, err)
+	fakeClient, err := FakeSecurityClient(ctx, opts)
 	assert.NoError(t, err)
 
 	res, err := fakeClient.UpdateRule(ctx, securityPolicyRule, "fake-project", "test-2")
@@ -104,18 +115,12 @@ func Test_UpdateRule(t *testing.T) {
 	assert.Equal(t, true, res)
 }
 
-func GoogleApiServer(existingPolicy string, exists bool) (context.Context, *SecurityClient, error) {
+func FakeSecurityClient(ctx context.Context, opts []option.ClientOption) (*SecurityClient, error) {
 	cfg, err := config.NewConfig()
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
+	client := NewSecurityClient(cfg, ctx, log.WithField("component", "fake-client"), opts...)
+	return client, nil
 
-	ctx := context.Background()
-	testServer := httptest.NewServer(fake.NewSecurityPoliciesRESTClient(existingPolicy, exists))
-	opts := []option.ClientOption{
-		option.WithEndpoint(testServer.URL),
-		option.WithoutAuthentication(),
-	}
-	fakeClient := NewSecurityClient(cfg, ctx, log.WithField("component", "fake-client"), opts...)
-	return ctx, fakeClient, nil
 }

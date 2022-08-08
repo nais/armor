@@ -18,7 +18,6 @@ func NewService(ctx context.Context, log *logrus.Entry) *ServiceClient {
 	if err != nil {
 		fmt.Printf("NewBackendServicesRESTClient: %v", err)
 	}
-	defer c.Close()
 
 	return &ServiceClient{
 		log:    log,
