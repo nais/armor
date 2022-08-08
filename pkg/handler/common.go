@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/golang/protobuf/proto"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
+	"google.golang.org/protobuf/proto"
 )
 
 func defaultRule(defaultRuleAction string) *compute.SecurityPolicyRule {
