@@ -16,9 +16,10 @@ import (
 )
 
 type Handler struct {
-	log    *logrus.Entry
-	client *google.Client
-	ctx    context.Context
+	log            *logrus.Entry
+	securityClient *google.SecurityClient
+	serviceClient  *google.ServiceClient
+	ctx            context.Context
 }
 
 const (
@@ -26,16 +27,17 @@ const (
 	securityTypeRule   = "rule"
 )
 
-func NewHandler(app *Application) *Handler {
+func NewHandler(ctx context.Context, securityClient *google.SecurityClient, serviceClient *google.ServiceClient, log *logrus.Entry) *Handler {
 	return &Handler{
-		log:    app.Log.WithField("subsystem", "handler"),
-		client: app.Client,
-		ctx:    app.Context,
+		log:            log.WithField("subsystem", "handler"),
+		securityClient: securityClient,
+		serviceClient:  serviceClient,
+		ctx:            ctx,
 	}
 }
 
 func (h *Handler) getPolicy(projectID, policy string) (*compute.SecurityPolicy, error) {
-	resource, err := h.client.GetPolicy(h.ctx, projectID, policy)
+	resource, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +45,7 @@ func (h *Handler) getPolicy(projectID, policy string) (*compute.SecurityPolicy, 
 }
 
 func (h *Handler) getRule(priority *int32, projectID, policy string) (*compute.SecurityPolicyRule, error) {
-	resource, err := h.client.GetRule(h.ctx, priority, projectID, policy)
+	resource, err := h.securityClient.GetRule(h.ctx, priority, projectID, policy)
 	if err != nil {
 		return nil, err
 	}
@@ -98,6 +100,21 @@ func policyResponse(w http.ResponseWriter, policy *compute.SecurityPolicy) {
 
 func ruleResponse(w http.ResponseWriter, rules *compute.SecurityPolicyRule) {
 	err := json.NewEncoder(w).Encode(rules)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+}
+
+func preConfiguredResponse(w http.ResponseWriter, rules []*compute.WafExpressionSet) {
+	var err error
+	if rules != nil {
+		err = json.NewEncoder(w).Encode(rules)
+	} else {
+		err = json.NewEncoder(w).Encode([]*compute.WafExpressionSet{})
+	}
+
 	if err != nil {
 		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
 		return

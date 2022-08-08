@@ -28,11 +28,11 @@ func main() {
 	defer stop()
 
 	var opts []option.ClientOption
-	googleClient := google.NewClient(cfg, ctx, log.WithField("component", "armor-client"), opts...)
-	app := handler.NewApp(ctx, googleClient, log.WithField("system", "armor"))
+	gSecurityClient := google.NewSecurityClient(cfg, ctx, log.WithField("component", "armor-security-client"), opts...)
+	gServiceClient := google.NewService(ctx, log.WithField("component", "armor-serice-client"))
 
-	h := handler.NewHandler(app)
-	router := app.SetupHttpRouter(h)
+	h := handler.NewHandler(ctx, gSecurityClient, gServiceClient, log.WithField("system", "armor"))
+	router := handler.SetupHttpRouter(h)
 
 	server := http.Server{
 		Addr:              ":8080",

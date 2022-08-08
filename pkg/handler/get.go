@@ -7,12 +7,14 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 	"net/http"
+	"strings"
 )
 
 const (
-	EndpointGetPolicy   = "/projects/{project}/policies/{policy}"
-	EndpointGetPolicies = "/projects/{project}/policies"
-	EndpointGetRule     = "/projects/{project}/policies/{policy}/rules/{priority}"
+	EndpointGetPolicy             = "/projects/{project}/policies/{policy}"
+	EndpointGetPolicies           = "/projects/{project}/policies"
+	EndpointGetRule               = "/projects/{project}/policies/{policy}/rules/{priority}"
+	EndpointGetPreConfiguredRules = "/projects/{project}/preConfiguredRules"
 )
 
 func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +30,7 @@ func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resource, err := h.client.GetPolicy(h.ctx, projectID, policy)
+	resource, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
 	if err != nil {
 		if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
 			policyResponse(w, &compute.SecurityPolicy{})
@@ -56,7 +58,7 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var policies []*compute.SecurityPolicy
-	it := h.client.ListPolicies(h.ctx, projectID)
+	it := h.securityClient.ListPolicies(h.ctx, projectID)
 	for {
 		resp, err := it.Next()
 		if err == iterator.Done {
@@ -99,7 +101,7 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resource, err := h.client.GetRule(h.ctx, &p, projectID, policy)
+	resource, err := h.securityClient.GetRule(h.ctx, &p, projectID, policy)
 	if err != nil {
 		if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
 			ruleResponse(w, &compute.SecurityPolicyRule{})
@@ -111,5 +113,46 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ruleResponse(w, resource)
+	return
+}
+
+func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) {
+	h.log.WithFields(logrus.Fields{
+		"method": "GetPreConfigured",
+	})
+
+	projectID := mux.Vars(r)["project"]
+	filter := r.URL.Query().Get("filter")
+
+	if ok, value := parse(projectID); !ok {
+		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		return
+	}
+
+	resource, err := h.securityClient.ListPreConfiguredRules(h.ctx, projectID)
+	var filteredResponse []*compute.WafExpressionSet
+	if err != nil {
+		if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
+			preConfiguredResponse(w, filteredResponse)
+			return
+		}
+		h.log.Errorf("failed to pre configured rules for %s: %v", projectID, err)
+		http.Error(w, fmt.Sprintf("trying to get preconfigured rules for project %s", projectID), http.StatusInternalServerError)
+		return
+	}
+
+	println(filter)
+
+	if filter == "" {
+		filteredResponse = resource.GetPreconfiguredExpressionSets().WafRules.GetExpressionSets()
+	} else {
+		for _, expression := range resource.GetPreconfiguredExpressionSets().WafRules.GetExpressionSets() {
+			if strings.Contains(expression.GetId(), filter) {
+				filteredResponse = append(filteredResponse, expression)
+			}
+		}
+	}
+
+	preConfiguredResponse(w, filteredResponse)
 	return
 }

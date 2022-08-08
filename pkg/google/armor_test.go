@@ -104,7 +104,7 @@ func Test_UpdateRule(t *testing.T) {
 	assert.Equal(t, true, res)
 }
 
-func GoogleApiServer(existingPolicy string, exists bool) (context.Context, *Client, error) {
+func GoogleApiServer(existingPolicy string, exists bool) (context.Context, *SecurityClient, error) {
 	cfg, err := config.NewConfig()
 	if err != nil {
 		return nil, nil, err
@@ -116,6 +116,6 @@ func GoogleApiServer(existingPolicy string, exists bool) (context.Context, *Clie
 		option.WithEndpoint(testServer.URL),
 		option.WithoutAuthentication(),
 	}
-	fakeClient := NewClient(cfg, ctx, log.WithField("component", "fake-client"), opts...)
+	fakeClient := NewSecurityClient(cfg, ctx, log.WithField("component", "fake-client"), opts...)
 	return ctx, fakeClient, nil
 }

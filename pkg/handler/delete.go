@@ -25,7 +25,7 @@ func (h *Handler) DeletePolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok, err := h.client.DeletePolicy(h.ctx, projectID, policy); !ok {
+	if ok, err := h.securityClient.DeletePolicy(h.ctx, projectID, policy); !ok {
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
 				return
@@ -60,7 +60,7 @@ func (h *Handler) DeleteRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok, err := h.client.RemoveRule(h.ctx, &p, projectID, policy); !ok {
+	if ok, err := h.securityClient.RemoveRule(h.ctx, &p, projectID, policy); !ok {
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
 				return

@@ -3,10 +3,10 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"github.com/nais/armor/pkg/validation"
+	"io"
 	"net/http"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/mux"
 	"github.com/nais/armor/pkg/model"
 	"github.com/sirupsen/logrus"
@@ -14,8 +14,9 @@ import (
 )
 
 const (
-	EndpointCreatePolicy = "/projects/{project}/policies"
-	EndpointCreateRule   = "/projects/{project}/policies/{policy}/rules"
+	EndpointCreatePolicy     = "/projects/{project}/policies"
+	EndpointCreateRule       = "/projects/{project}/policies/{policy}/rules"
+	EndpointSetPolicyBackend = "/projects/{project}/policies/{policy}/backend/{backend}"
 )
 
 func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,7 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := io.ReadAll(r.Body)
 	if err != nil || len(reqBody) == 0 {
 		http.Error(w, "error body", http.StatusBadRequest)
 		return
@@ -76,7 +77,7 @@ func (h *Handler) createPolicy(request *model.ArmorRequestPolicy, projectID stri
 		}
 	}
 
-	if ok, err := h.client.CreatePolicy(h.ctx, parsedPolicy, projectID); !ok {
+	if ok, err := h.securityClient.CreatePolicy(h.ctx, parsedPolicy, projectID); !ok {
 		if err != nil {
 			return nil, err
 		}
@@ -84,30 +85,6 @@ func (h *Handler) createPolicy(request *model.ArmorRequestPolicy, projectID stri
 		h.log.Info("inserted policy ", parsedPolicy.Name)
 	}
 	return parsedPolicy, nil
-}
-
-func defaultRule(defaultRuleAction string) *compute.SecurityPolicyRule {
-	if len(defaultRuleAction) == 0 {
-		defaultRuleAction = "deny(403)"
-	}
-
-	matcher := &compute.SecurityPolicyRuleMatcher{
-		Config: &compute.SecurityPolicyRuleMatcherConfig{
-			SrcIpRanges: []string{
-				"*",
-			},
-		},
-		VersionedExpr: proto.String(compute.SecurityPolicyRuleMatcher_SRC_IPS_V1.String()),
-	}
-
-	action := defaultRuleAction
-	return &compute.SecurityPolicyRule{
-		Action: &action,
-		// lowest priority
-		Priority:    proto.Int32(2147483647),
-		Description: proto.String("Default rule, higher priority overrides it"),
-		Match:       matcher,
-	}
 }
 
 func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
@@ -123,7 +100,7 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := io.ReadAll(r.Body)
 	if err != nil || len(reqBody) == 0 {
 		http.Error(w, "error body", http.StatusBadRequest)
 		return
@@ -139,7 +116,7 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 
 	resource, err := request.ParseRule()
 
-	if ok, err := validRule(resource); !ok {
+	if ok, err := validation.Rule(resource); !ok {
 		h.log.Errorf("error validation of rule %v", err)
 		http.Error(w, fmt.Sprintf("validation of rule: %v", err), http.StatusBadRequest)
 		return
@@ -151,7 +128,7 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok, err := h.client.AddRule(h.ctx, resource, projectID, policy); !ok {
+	if ok, err := h.securityClient.AddRule(h.ctx, resource, projectID, policy); !ok {
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
 				policyResponse(w, &compute.SecurityPolicy{})
@@ -168,40 +145,32 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func validRule(rule *compute.SecurityPolicyRule) (bool, error) {
-	if rule.Action == nil {
-		return false, fmt.Errorf("action is required")
+func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
+	projectID := mux.Vars(r)["project"]
+	policy := mux.Vars(r)["policy"]
+	backend := mux.Vars(r)["backend"]
+
+	if ok, value := parse(projectID, policy, backend); !ok {
+		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		return
 	}
 
-	if rule.Priority == nil {
-		return false, fmt.Errorf("priority is required")
+	reqBody, err := io.ReadAll(r.Body)
+	if err != nil || len(reqBody) == 0 {
+		http.Error(w, "error body", http.StatusBadRequest)
+		return
 	}
 
-	if rule.Preview == nil {
-		return false, fmt.Errorf("preview is required")
-	}
-
-	if rule.Match == nil {
-		return false, fmt.Errorf("match is required")
-	}
-
-	if rule.Action != nil && *rule.Action == "rate_based_ban" || *rule.Action == "throttle" {
-		if rule.RateLimitOptions == nil {
-			return false, fmt.Errorf("rate limit options is required when rate_based_ban or throttle is used")
+	if ok, err := h.serviceClient.SetSecurityPolicy(h.ctx, projectID, policy, backend); !ok {
+		if err != nil {
+			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
+				policyResponse(w, &compute.SecurityPolicy{})
+				return
+			}
+			h.log.Errorf("error setting policy backend %v", err)
+			http.Error(w, fmt.Sprintf("setting policy backend %s", projectID), http.StatusInternalServerError)
+			return
 		}
 	}
-
-	if rule.Action != nil && *rule.Action == "redirect" {
-		if rule.RedirectOptions == nil {
-			return false, fmt.Errorf("redirect options is required when redirect is used")
-		}
-	}
-
-	if rule.Match.VersionedExpr != nil {
-		if rule.Match.Config == nil {
-			return false, fmt.Errorf("match config is required when match versioned expr is used")
-		}
-	}
-
-	return true, nil
+	w.WriteHeader(http.StatusCreated)
 }

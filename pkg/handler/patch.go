@@ -63,7 +63,7 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok, err := h.client.UpdatePolicy(h.ctx, &resource, projectID, policy); !ok {
+	if ok, err := h.securityClient.UpdatePolicy(h.ctx, &resource, projectID, policy); !ok {
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
 				policyResponse(w, &compute.SecurityPolicy{})
@@ -134,7 +134,7 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok, err := h.client.UpdateRule(h.ctx, &resource, projectID, policy); !ok {
+	if ok, err := h.securityClient.UpdateRule(h.ctx, &resource, projectID, policy); !ok {
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
 				ruleResponse(w, &compute.SecurityPolicyRule{})

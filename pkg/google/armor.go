@@ -10,31 +10,33 @@ import (
 	computepb "google.golang.org/genproto/googleapis/cloud/compute/v1"
 )
 
-type Client struct {
+type SecurityClient struct {
 	log    *logrus.Entry
 	Client *compute.SecurityPoliciesClient
 	Config *config.Config
 }
 
-func NewClient(cfg *config.Config, ctx context.Context, log *logrus.Entry, opts ...option.ClientOption) *Client {
+func NewSecurityClient(cfg *config.Config, ctx context.Context, log *logrus.Entry, opts ...option.ClientOption) *SecurityClient {
 	c, err := compute.NewSecurityPoliciesRESTClient(ctx)
 	if opts != nil && len(opts) > 0 {
 		c, err = compute.NewSecurityPoliciesRESTClient(ctx, opts...)
 	}
+
+	defer c.Close()
 
 	if err != nil {
 		fmt.Printf("NewInstancesRESTClient: %v", err)
 	}
 	log.Info("created NewInstancesRESTClient")
 
-	return &Client{
+	return &SecurityClient{
 		log:    log,
 		Client: c,
 		Config: cfg,
 	}
 }
 
-func (in *Client) ListPolicies(ctx context.Context, projectID string) *compute.SecurityPolicyIterator {
+func (in *SecurityClient) ListPolicies(ctx context.Context, projectID string) *compute.SecurityPolicyIterator {
 	req := &computepb.ListSecurityPoliciesRequest{
 		Project: projectID,
 	}
@@ -42,7 +44,7 @@ func (in *Client) ListPolicies(ctx context.Context, projectID string) *compute.S
 	return in.Client.List(ctx, req)
 }
 
-func (in *Client) GetPolicy(ctx context.Context, projectID, policyName string) (*computepb.SecurityPolicy, error) {
+func (in *SecurityClient) GetPolicy(ctx context.Context, projectID, policyName string) (*computepb.SecurityPolicy, error) {
 	req := &computepb.GetSecurityPolicyRequest{
 		Project:        projectID,
 		SecurityPolicy: policyName,
@@ -56,7 +58,7 @@ func (in *Client) GetPolicy(ctx context.Context, projectID, policyName string) (
 	return result, nil
 }
 
-func (in *Client) CreatePolicy(ctx context.Context, policy *computepb.SecurityPolicy, projectID string) (bool, error) {
+func (in *SecurityClient) CreatePolicy(ctx context.Context, policy *computepb.SecurityPolicy, projectID string) (bool, error) {
 	req := &computepb.InsertSecurityPolicyRequest{
 		Project:                projectID,
 		SecurityPolicyResource: policy,
@@ -75,7 +77,7 @@ func (in *Client) CreatePolicy(ctx context.Context, policy *computepb.SecurityPo
 	return op.Done(), nil
 }
 
-func (in *Client) UpdatePolicy(ctx context.Context, policy *computepb.SecurityPolicy, projectID, policyName string) (bool, error) {
+func (in *SecurityClient) UpdatePolicy(ctx context.Context, policy *computepb.SecurityPolicy, projectID, policyName string) (bool, error) {
 	req := &computepb.PatchSecurityPolicyRequest{
 		SecurityPolicy:         policyName,
 		Project:                projectID,
@@ -95,7 +97,7 @@ func (in *Client) UpdatePolicy(ctx context.Context, policy *computepb.SecurityPo
 	return op.Done(), nil
 }
 
-func (in *Client) DeletePolicy(ctx context.Context, projectID, policyName string) (bool, error) {
+func (in *SecurityClient) DeletePolicy(ctx context.Context, projectID, policyName string) (bool, error) {
 	req := &computepb.DeleteSecurityPolicyRequest{
 		SecurityPolicy: policyName,
 		Project:        projectID,
@@ -114,7 +116,7 @@ func (in *Client) DeletePolicy(ctx context.Context, projectID, policyName string
 	return op.Done(), nil
 }
 
-func (in *Client) GetRule(ctx context.Context, priority *int32, projectID, policyName string) (*computepb.SecurityPolicyRule, error) {
+func (in *SecurityClient) GetRule(ctx context.Context, priority *int32, projectID, policyName string) (*computepb.SecurityPolicyRule, error) {
 	req := &computepb.GetRuleSecurityPolicyRequest{
 		SecurityPolicy: policyName,
 		Project:        projectID,
@@ -129,7 +131,7 @@ func (in *Client) GetRule(ctx context.Context, priority *int32, projectID, polic
 	return rule, nil
 }
 
-func (in *Client) AddRule(ctx context.Context, resource *computepb.SecurityPolicyRule, projectID, policyName string) (bool, error) {
+func (in *SecurityClient) AddRule(ctx context.Context, resource *computepb.SecurityPolicyRule, projectID, policyName string) (bool, error) {
 	req := &computepb.AddRuleSecurityPolicyRequest{
 		SecurityPolicy:             policyName,
 		Project:                    projectID,
@@ -149,7 +151,7 @@ func (in *Client) AddRule(ctx context.Context, resource *computepb.SecurityPolic
 	return op.Done(), nil
 }
 
-func (in *Client) UpdateRule(ctx context.Context, resource *computepb.SecurityPolicyRule, projectID, policyName string) (bool, error) {
+func (in *SecurityClient) UpdateRule(ctx context.Context, resource *computepb.SecurityPolicyRule, projectID, policyName string) (bool, error) {
 	req := &computepb.PatchRuleSecurityPolicyRequest{
 		SecurityPolicy:             policyName,
 		Project:                    projectID,
@@ -169,7 +171,7 @@ func (in *Client) UpdateRule(ctx context.Context, resource *computepb.SecurityPo
 	return op.Done(), nil
 }
 
-func (in *Client) RemoveRule(ctx context.Context, priority *int32, projectID, policyName string) (bool, error) {
+func (in *SecurityClient) RemoveRule(ctx context.Context, priority *int32, projectID, policyName string) (bool, error) {
 	req := &computepb.RemoveRuleSecurityPolicyRequest{
 		SecurityPolicy: policyName,
 		Project:        projectID,
@@ -187,4 +189,17 @@ func (in *Client) RemoveRule(ctx context.Context, priority *int32, projectID, po
 	}
 
 	return op.Done(), nil
+}
+
+func (in *SecurityClient) ListPreConfiguredRules(ctx context.Context, projectID string) (*computepb.SecurityPoliciesListPreconfiguredExpressionSetsResponse, error) {
+	req := &computepb.ListPreconfiguredExpressionSetsSecurityPoliciesRequest{
+		Project: projectID,
+	}
+
+	resp, err := in.Client.ListPreconfiguredExpressionSets(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("get preconfigured: %w", err)
+	}
+
+	return resp, nil
 }
