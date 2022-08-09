@@ -48,12 +48,12 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("error creating policy %v", err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		policyResponse(w, &compute.SecurityPolicy{})
+		response(w, interface{}(&compute.SecurityPolicy{}))
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	policiesResponse(w, []*compute.SecurityPolicy{resource})
+	response(w, interface{}([]*compute.SecurityPolicy{resource}))
 	return
 }
 
@@ -129,13 +129,13 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			h.log.Errorf("error adding rule %v", err)
 			h.HttpError(err, w, projectID, securityTypeRule)
-			policyResponse(w, &compute.SecurityPolicy{})
+			response(w, interface{}(&compute.SecurityPolicy{}))
 			return
 		}
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	ruleResponse(w, resource)
+	response(w, interface{}(resource))
 	return
 }
 
@@ -153,7 +153,7 @@ func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		policyResponse(w, &compute.SecurityPolicy{})
+		response(w, interface{}(&compute.SecurityPolicy{}))
 		return
 	}
 
@@ -161,7 +161,7 @@ func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			h.log.Errorf("error setting policy backend %v", err)
 			h.HttpError(err, w, projectID, securityTypeRule)
-			policyResponse(w, &compute.SecurityPolicy{})
+			response(w, interface{}(&compute.SecurityPolicy{}))
 			return
 		}
 	}

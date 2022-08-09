@@ -34,11 +34,11 @@ func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		policyResponse(w, &compute.SecurityPolicy{})
+		response(w, interface{}(&compute.SecurityPolicy{}))
 		return
 	}
 
-	policyResponse(w, resource)
+	response(w, interface{}(resource))
 	return
 
 }
@@ -69,11 +69,11 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 
 		h.log.Errorf("failed to list policies %s: %v", projectID, err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		policiesResponse(w, policies)
+		response(w, interface{}(policies))
 		return
 	}
 
-	policiesResponse(w, policies)
+	response(w, interface{}(policies))
 	return
 }
 
@@ -102,11 +102,11 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("failed to get rule %s: %v", policy, err)
 		h.HttpError(err, w, projectID, securityTypeRule)
-		ruleResponse(w, &compute.SecurityPolicyRule{})
+		response(w, interface{}(&compute.SecurityPolicyRule{}))
 		return
 	}
 
-	ruleResponse(w, resource)
+	response(w, interface{}(resource))
 	return
 }
 
@@ -129,12 +129,12 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 	if err != nil {
 		h.log.Errorf("failed to pre configured rules for %s: %v", projectID, err)
 		h.HttpError(err, w, projectID, securityTypeRule)
-		preConfiguredResponse(w, filteredResponse)
+		response(w, interface{}(filteredResponse))
 		return
 	}
 
 	filteredResponse = filterResult(filter, version, resource)
-	preConfiguredResponse(w, filteredResponse)
+	response(w, interface{}(filteredResponse))
 	return
 }
 
@@ -164,9 +164,9 @@ func (h *Handler) GetBackendServices(w http.ResponseWriter, r *http.Request) {
 
 		h.log.Errorf("failed to list backend services %s: %v", projectID, err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		backendResponse(w, backends)
+		response(w, interface{}(backends))
 		return
 	}
 
-	backendResponse(w, backends)
+	response(w, interface{}(backends))
 }

@@ -76,50 +76,8 @@ func ErrorType(err error, code int) bool {
 	return false
 }
 
-func backendResponse(w http.ResponseWriter, policies []*compute.BackendService) {
-	err := json.NewEncoder(w).Encode(policies)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-}
-
-func policiesResponse(w http.ResponseWriter, policies []*compute.SecurityPolicy) {
-	err := json.NewEncoder(w).Encode(policies)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-}
-
-func policyResponse(w http.ResponseWriter, policy *compute.SecurityPolicy) {
-	err := json.NewEncoder(w).Encode(policy)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-}
-
-func ruleResponse(w http.ResponseWriter, rules *compute.SecurityPolicyRule) {
-	err := json.NewEncoder(w).Encode(rules)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-}
-
-func preConfiguredResponse(w http.ResponseWriter, rules []*compute.WafExpressionSet) {
-	var err error
-	if rules != nil {
-		err = json.NewEncoder(w).Encode(rules)
-	} else {
-		err = json.NewEncoder(w).Encode([]*compute.WafExpressionSet{})
-	}
-
+func response(w http.ResponseWriter, response interface{}) {
+	err := json.NewEncoder(w).Encode(response)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
 		return

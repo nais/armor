@@ -47,7 +47,7 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		policyResponse(w, &compute.SecurityPolicy{})
+		response(w, interface{}(&compute.SecurityPolicy{}))
 		return
 	}
 
@@ -55,7 +55,7 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 	if err := request.MergePolicy(&resource, currentPolicy); err != nil {
 		h.log.Warnf("failed to merge policy: %v", err)
 		http.Error(w, fmt.Sprintf("merge policy %s for project %s", policy, projectID), http.StatusInternalServerError)
-		policyResponse(w, &compute.SecurityPolicy{})
+		response(w, interface{}(&compute.SecurityPolicy{}))
 		return
 	}
 
@@ -63,7 +63,7 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			h.log.Errorf("failed to get policy %s: %v", policy, err)
 			h.HttpError(err, w, projectID, securityTypePolicy)
-			policyResponse(w, &compute.SecurityPolicy{})
+			response(w, interface{}(&compute.SecurityPolicy{}))
 			return
 		}
 	}
@@ -111,7 +111,7 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("failed to get rule %s: %v", priority, err)
 		h.HttpError(err, w, projectID, securityTypeRule)
-		ruleResponse(w, &compute.SecurityPolicyRule{})
+		response(w, interface{}(&compute.SecurityPolicyRule{}))
 		return
 	}
 
@@ -119,7 +119,7 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 	if err := request.MergeRule(&resource, currentRule); err != nil {
 		h.log.Warnf("failed to merge rule: %v", err)
 		http.Error(w, fmt.Sprintf("merge rule %s for project %s", priority, projectID), http.StatusInternalServerError)
-		ruleResponse(w, &compute.SecurityPolicyRule{})
+		response(w, interface{}(&compute.SecurityPolicyRule{}))
 		return
 	}
 
@@ -127,7 +127,7 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			h.log.Errorf("failed to update rule %s: %v", priority, err)
 			h.HttpError(err, w, projectID, securityTypeRule)
-			ruleResponse(w, &compute.SecurityPolicyRule{})
+			response(w, interface{}(&compute.SecurityPolicyRule{}))
 			return
 		}
 	}
