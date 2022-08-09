@@ -16,24 +16,24 @@ bin/armor
 
 ### Get
 
-`/projects/{project}/policies/{policy}`
-`/projects/{project}/policies"`
-`/projects/{project}/policies/{policy}/rules/{priority}`
-`/projects/{project}/preConfiguredRules`
-`/projects/{project}/backendServices`
+`/projects/{project}/policies/{policy}`  
+`/projects/{project}/policies"`  
+`/projects/{project}/policies/{policy}/rules/{priority}`  
+`/projects/{project}/preConfiguredRules`  
+`/projects/{project}/backendServices`  
 
 ### Post
 
-`/projects/{project}/policies/{policy}/rules`
-`/projects/{project}/policies/{policy}`
-`/projects/{project}/policies/{policy}/backendservices/{backend}`
+`/projects/{project}/policies/{policy}/rules`  
+`/projects/{project}/policies/{policy}`  
+`/projects/{project}/policies/{policy}/backendservices/{backend}`  
 
 ### Delete
 
-`/projects/{project}/policies/{policy}`
-`/projects/{project}/policies/{policy}/rules/{priority}`
+`/projects/{project}/policies/{policy}`  
+`/projects/{project}/policies/{policy}/rules/{priority}`  
 
 ### Patch
 
-`/projects/{project}/policies/{policy}`
-`/projects/{project}/policies/{policy}/rules/{priority}`
+`/projects/{project}/policies/{policy}`  
+`/projects/{project}/policies/{policy}/rules/{priority}`  
