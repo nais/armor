@@ -25,12 +25,12 @@ func NewService(ctx context.Context, log *logrus.Entry) *ServiceClient {
 	}
 }
 
-func (in *ServiceClient) SetSecurityPolicy(ctx context.Context, projectID, policy, backendService string) (bool, error) {
+func (in *ServiceClient) SetSecurityPolicy(ctx context.Context, projectID string, policy *string, backendService string) (bool, error) {
 	req := &computepb.SetSecurityPolicyBackendServiceRequest{
 		BackendService: backendService,
 		Project:        projectID,
 		SecurityPolicyReferenceResource: &computepb.SecurityPolicyReference{
-			SecurityPolicy: &policy,
+			SecurityPolicy: policy,
 		},
 	}
 	op, err := in.Client.SetSecurityPolicy(ctx, req)
@@ -48,4 +48,12 @@ func (in *ServiceClient) SetSecurityPolicy(ctx context.Context, projectID, polic
 	}
 
 	return op.Done(), nil
+}
+
+func (in *ServiceClient) ListBackendServices(ctx context.Context, projectID string) *compute.BackendServiceIterator {
+	req := &computepb.ListBackendServicesRequest{
+		Project: projectID,
+	}
+
+	return in.Client.List(ctx, req)
 }

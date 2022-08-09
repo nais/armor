@@ -23,5 +23,8 @@ func SetupHttpRouter(h *Handler) *mux.Router {
 	r.HandleFunc(EndpointDeleteRule, h.DeleteRule).Methods(http.MethodDelete)
 	// Preconfigured rules
 	r.HandleFunc(EndpointGetPreConfiguredRules, h.GetPreConfiguredRules).Methods(http.MethodGet)
+	// Add policy to backend
+	r.HandleFunc(EndpointSetPolicyBackend, h.SetPolicyBackend).Methods(http.MethodPost)
+	r.HandleFunc(EndpointGetBackendServices, h.GetBackendServices).Methods(http.MethodGet)
 	return r
 }

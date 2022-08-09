@@ -80,6 +80,15 @@ func ErrorType(err error, code int) bool {
 	return false
 }
 
+func backendResponse(w http.ResponseWriter, policies []*compute.BackendService) {
+	err := json.NewEncoder(w).Encode(policies)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+}
+
 func policiesResponse(w http.ResponseWriter, policies []*compute.SecurityPolicy) {
 	err := json.NewEncoder(w).Encode(policies)
 	if err != nil {

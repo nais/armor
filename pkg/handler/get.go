@@ -15,6 +15,7 @@ const (
 	EndpointGetPolicies           = "/projects/{project}/policies"
 	EndpointGetRule               = "/projects/{project}/policies/{policy}/rules/{priority}"
 	EndpointGetPreConfiguredRules = "/projects/{project}/preConfiguredRules"
+	EndpointGetBackendServices    = "/projects/{project}/backendservices"
 )
 
 func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +58,7 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var policies []*compute.SecurityPolicy
+	policies := []*compute.SecurityPolicy{}
 	it := h.securityClient.ListPolicies(h.ctx, projectID)
 	for {
 		resp, err := it.Next()
@@ -66,7 +67,7 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 		}
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-				policiesResponse(w, []*compute.SecurityPolicy{})
+				policiesResponse(w, policies)
 				return
 			}
 			h.log.Errorf("failed to list policies %s: %v", projectID, err)
@@ -141,8 +142,6 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	println(filter)
-
 	if filter == "" {
 		filteredResponse = resource.GetPreconfiguredExpressionSets().WafRules.GetExpressionSets()
 	} else {
@@ -154,5 +153,40 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 	}
 
 	preConfiguredResponse(w, filteredResponse)
+	return
+}
+
+func (h *Handler) GetBackendServices(w http.ResponseWriter, r *http.Request) {
+	h.log.WithFields(logrus.Fields{
+		"method": "GetPolicies",
+	})
+
+	projectID := mux.Vars(r)["project"]
+
+	if ok, value := parse(projectID); !ok {
+		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		return
+	}
+
+	backends := []*compute.BackendService{}
+	it := h.serviceClient.ListBackendServices(h.ctx, projectID)
+	for {
+		resp, err := it.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
+				backendResponse(w, backends)
+				return
+			}
+			h.log.Errorf("failed to list backend services %s: %v", projectID, err)
+			http.Error(w, fmt.Sprintf("cant get backend services for project: %s", projectID), http.StatusInternalServerError)
+			return
+		}
+		backends = append(backends, resp)
+	}
+
+	backendResponse(w, backends)
 	return
 }

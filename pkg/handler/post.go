@@ -16,7 +16,7 @@ import (
 const (
 	EndpointCreatePolicy     = "/projects/{project}/policies"
 	EndpointCreateRule       = "/projects/{project}/policies/{policy}/rules"
-	EndpointSetPolicyBackend = "/projects/{project}/policies/{policy}/backend/{backend}"
+	EndpointSetPolicyBackend = "/projects/{project}/policies/{policy}/backendservices/{backend}"
 )
 
 func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
@@ -155,13 +155,18 @@ func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqBody, err := io.ReadAll(r.Body)
-	if err != nil || len(reqBody) == 0 {
-		http.Error(w, "error body", http.StatusBadRequest)
+	resource, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
+	if err != nil {
+		if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
+			policyResponse(w, &compute.SecurityPolicy{})
+			return
+		}
+		h.log.Errorf("failed to get policy %s: %v", policy, err)
+		http.Error(w, fmt.Sprintf("get policy %s for project %s", policy, projectID), http.StatusInternalServerError)
 		return
 	}
 
-	if ok, err := h.serviceClient.SetSecurityPolicy(h.ctx, projectID, policy, backend); !ok {
+	if ok, err := h.serviceClient.SetSecurityPolicy(h.ctx, projectID, resource.SelfLink, backend); !ok {
 		if err != nil {
 			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
 				policyResponse(w, &compute.SecurityPolicy{})
