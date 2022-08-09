@@ -52,22 +52,18 @@ func (h *Handler) getRule(priority *int32, projectID, policy string) (*compute.S
 	return resource, nil
 }
 
-func (h *Handler) HttpError(err error, w http.ResponseWriter, projectID, resource string) bool {
+func (h *Handler) HttpError(err error, w http.ResponseWriter, projectID, resource string) {
 	if ErrorType(err, http.StatusNotFound) {
 		w.WriteHeader(http.StatusNotFound)
-		return false
 	}
 	if ErrorType(err, http.StatusBadRequest) {
 		h.log.Warnf("%s: %v", resource, err)
 		http.Error(w, fmt.Sprintf("%s resource %s: %s", resource, projectID, err.Error()), http.StatusBadRequest)
-		return false
 	}
 	if ErrorType(err, http.StatusConflict) {
 		h.log.Warnf("failed %s: %v", resource, err)
 		http.Error(w, fmt.Sprintf("%s exists in %s", resource, projectID), http.StatusConflict)
-		return false
 	}
-	return true
 }
 
 func ErrorType(err error, code int) bool {
@@ -136,6 +132,9 @@ func parse(input ...string) (bool, string) {
 	// of alphanumeric characters separated by a single -
 	regex := "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
 	for _, v := range input {
+		if v == "" {
+			continue
+		}
 		if !regexp.MustCompile(regex).MatchString(v) {
 			return false, v
 		}

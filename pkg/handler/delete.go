@@ -27,14 +27,12 @@ func (h *Handler) DeletePolicy(w http.ResponseWriter, r *http.Request) {
 
 	if ok, err := h.securityClient.DeletePolicy(h.ctx, projectID, policy); !ok {
 		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-				return
-			}
-			h.log.Errorf("failed to get policy %s: %v", policy, err)
-			http.Error(w, fmt.Sprintf("get policy %s for project %s", policy, projectID), http.StatusInternalServerError)
+			h.log.Errorf("failed to delete policy %s: %v", policy, err)
+			h.HttpError(err, w, projectID, securityTypePolicy)
 			return
 		}
 	}
+
 	w.WriteHeader(http.StatusOK)
 	return
 }
@@ -53,6 +51,7 @@ func (h *Handler) DeleteRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var err error
 	p, err := parseInt(priority)
 	if err != nil {
 		h.log.Errorf("failed to parse priority %s: %v", priority, err)
@@ -62,11 +61,8 @@ func (h *Handler) DeleteRule(w http.ResponseWriter, r *http.Request) {
 
 	if ok, err := h.securityClient.RemoveRule(h.ctx, &p, projectID, policy); !ok {
 		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-				return
-			}
 			h.log.Errorf("failed to get rule %s: %v", priority, err)
-			http.Error(w, fmt.Sprintf("get rule %s for project %s", priority, projectID), http.StatusInternalServerError)
+			h.HttpError(err, w, projectID, securityTypeRule)
 			return
 		}
 	}

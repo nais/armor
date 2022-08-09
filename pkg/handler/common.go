@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"fmt"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 	"google.golang.org/protobuf/proto"
+	"strings"
 )
 
 func defaultRule(defaultRuleAction string) *compute.SecurityPolicyRule {
@@ -27,4 +29,18 @@ func defaultRule(defaultRuleAction string) *compute.SecurityPolicyRule {
 		Description: proto.String("Default rule, higher priority overrides it"),
 		Match:       matcher,
 	}
+}
+
+func filterResult(filter, version string, resource *compute.SecurityPoliciesListPreconfiguredExpressionSetsResponse) (filteredResponse []*compute.WafExpressionSet) {
+	if filter == "" {
+		filteredResponse = resource.GetPreconfiguredExpressionSets().GetWafRules().GetExpressionSets()
+	} else {
+		for _, expression := range resource.GetPreconfiguredExpressionSets().GetWafRules().GetExpressionSets() {
+			// v33 is the latest version of preconfigured rules
+			if strings.Contains(expression.GetId(), fmt.Sprintf("%s-%s", filter, version)) {
+				filteredResponse = append(filteredResponse, expression)
+			}
+		}
+	}
+	return filteredResponse
 }

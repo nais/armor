@@ -46,12 +46,9 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 
 	resource, err := h.createPolicy(&request, projectID)
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-			policyResponse(w, &compute.SecurityPolicy{})
-			return
-		}
 		h.log.Errorf("error creating policy %v", err)
-		http.Error(w, fmt.Sprintf("create policy %v", err), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypePolicy)
+		policyResponse(w, &compute.SecurityPolicy{})
 		return
 	}
 
@@ -130,12 +127,9 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 
 	if ok, err := h.securityClient.AddRule(h.ctx, resource, projectID, policy); !ok {
 		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-				policyResponse(w, &compute.SecurityPolicy{})
-				return
-			}
 			h.log.Errorf("error adding rule %v", err)
-			http.Error(w, fmt.Sprintf("adding rule %s", projectID), http.StatusInternalServerError)
+			h.HttpError(err, w, projectID, securityTypeRule)
+			policyResponse(w, &compute.SecurityPolicy{})
 			return
 		}
 	}
@@ -157,25 +151,20 @@ func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
 
 	resource, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-			policyResponse(w, &compute.SecurityPolicy{})
-			return
-		}
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
-		http.Error(w, fmt.Sprintf("get policy %s for project %s", policy, projectID), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypePolicy)
+		policyResponse(w, &compute.SecurityPolicy{})
 		return
 	}
 
 	if ok, err := h.serviceClient.SetSecurityPolicy(h.ctx, projectID, resource.SelfLink, backend); !ok {
 		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-				policyResponse(w, &compute.SecurityPolicy{})
-				return
-			}
 			h.log.Errorf("error setting policy backend %v", err)
-			http.Error(w, fmt.Sprintf("setting policy backend %s", projectID), http.StatusInternalServerError)
+			h.HttpError(err, w, projectID, securityTypeRule)
+			policyResponse(w, &compute.SecurityPolicy{})
 			return
 		}
 	}
+
 	w.WriteHeader(http.StatusCreated)
 }

@@ -17,6 +17,10 @@ type ArmorRequestRule struct {
 	SecurityPolicyRule *compute.SecurityPolicyRule `json:"rule"`
 }
 
+type ArmorPreConfiguredRulesRequest struct {
+	Version string `json:"version"`
+}
+
 func (in *ArmorRequestPolicy) ParsePolicy() (*compute.SecurityPolicy, error) {
 	var instance *compute.SecurityPolicy
 

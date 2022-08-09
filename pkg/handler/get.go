@@ -7,7 +7,6 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 	"net/http"
-	"strings"
 )
 
 const (
@@ -15,7 +14,7 @@ const (
 	EndpointGetPolicies           = "/projects/{project}/policies"
 	EndpointGetRule               = "/projects/{project}/policies/{policy}/rules/{priority}"
 	EndpointGetPreConfiguredRules = "/projects/{project}/preConfiguredRules"
-	EndpointGetBackendServices    = "/projects/{project}/backendservices"
+	EndpointGetBackendServices    = "/projects/{project}/backendServices"
 )
 
 func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
@@ -33,17 +32,15 @@ func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
 
 	resource, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-			policyResponse(w, &compute.SecurityPolicy{})
-			return
-		}
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
-		http.Error(w, fmt.Sprintf("get policy %s for project %s", policy, projectID), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypePolicy)
+		policyResponse(w, &compute.SecurityPolicy{})
 		return
 	}
 
 	policyResponse(w, resource)
 	return
+
 }
 
 func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
@@ -65,16 +62,15 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 		if err == iterator.Done {
 			break
 		}
-		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-				policiesResponse(w, policies)
-				return
-			}
-			h.log.Errorf("failed to list policies %s: %v", projectID, err)
-			http.Error(w, fmt.Sprintf("cant get polices for project: %s", projectID), http.StatusInternalServerError)
-			return
+		if err == nil {
+			policies = append(policies, resp)
+			continue
 		}
-		policies = append(policies, resp)
+
+		h.log.Errorf("failed to list policies %s: %v", projectID, err)
+		h.HttpError(err, w, projectID, securityTypePolicy)
+		policiesResponse(w, policies)
+		return
 	}
 
 	policiesResponse(w, policies)
@@ -104,12 +100,9 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 
 	resource, err := h.securityClient.GetRule(h.ctx, &p, projectID, policy)
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-			ruleResponse(w, &compute.SecurityPolicyRule{})
-			return
-		}
 		h.log.Errorf("failed to get rule %s: %v", policy, err)
-		http.Error(w, fmt.Sprintf("trying to get rule for policy %s", policy), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypeRule)
+		ruleResponse(w, &compute.SecurityPolicyRule{})
 		return
 	}
 
@@ -119,13 +112,14 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) {
 	h.log.WithFields(logrus.Fields{
-		"method": "GetPreConfigured",
+		"method": "GetPreConfiguredRules",
 	})
 
 	projectID := mux.Vars(r)["project"]
 	filter := r.URL.Query().Get("filter")
+	version := r.URL.Query().Get("version")
 
-	if ok, value := parse(projectID); !ok {
+	if ok, value := parse(projectID, filter, version); !ok {
 		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
 		return
 	}
@@ -133,32 +127,20 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 	resource, err := h.securityClient.ListPreConfiguredRules(h.ctx, projectID)
 	var filteredResponse []*compute.WafExpressionSet
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-			preConfiguredResponse(w, filteredResponse)
-			return
-		}
 		h.log.Errorf("failed to pre configured rules for %s: %v", projectID, err)
-		http.Error(w, fmt.Sprintf("trying to get preconfigured rules for project %s", projectID), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypeRule)
+		preConfiguredResponse(w, filteredResponse)
 		return
 	}
 
-	if filter == "" {
-		filteredResponse = resource.GetPreconfiguredExpressionSets().WafRules.GetExpressionSets()
-	} else {
-		for _, expression := range resource.GetPreconfiguredExpressionSets().WafRules.GetExpressionSets() {
-			if strings.Contains(expression.GetId(), filter) {
-				filteredResponse = append(filteredResponse, expression)
-			}
-		}
-	}
-
+	filteredResponse = filterResult(filter, version, resource)
 	preConfiguredResponse(w, filteredResponse)
 	return
 }
 
 func (h *Handler) GetBackendServices(w http.ResponseWriter, r *http.Request) {
 	h.log.WithFields(logrus.Fields{
-		"method": "GetPolicies",
+		"method": "GetBackendServices",
 	})
 
 	projectID := mux.Vars(r)["project"]
@@ -175,18 +157,16 @@ func (h *Handler) GetBackendServices(w http.ResponseWriter, r *http.Request) {
 		if err == iterator.Done {
 			break
 		}
-		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-				backendResponse(w, backends)
-				return
-			}
-			h.log.Errorf("failed to list backend services %s: %v", projectID, err)
-			http.Error(w, fmt.Sprintf("cant get backend services for project: %s", projectID), http.StatusInternalServerError)
-			return
+		if err == nil {
+			backends = append(backends, resp)
+			continue
 		}
-		backends = append(backends, resp)
+
+		h.log.Errorf("failed to list backend services %s: %v", projectID, err)
+		h.HttpError(err, w, projectID, securityTypePolicy)
+		backendResponse(w, backends)
+		return
 	}
 
 	backendResponse(w, backends)
-	return
 }

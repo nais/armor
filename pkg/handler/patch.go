@@ -3,13 +3,12 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-
 	"github.com/gorilla/mux"
 	"github.com/nais/armor/pkg/model"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
+	"io"
+	"net/http"
 )
 
 const (
@@ -30,7 +29,7 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := io.ReadAll(r.Body)
 	if err != nil || len(reqBody) == 0 {
 		http.Error(w, "error body", http.StatusBadRequest)
 		return
@@ -46,12 +45,9 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 
 	currentPolicy, err := h.getPolicy(projectID, policy)
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-			policyResponse(w, &compute.SecurityPolicy{})
-			return
-		}
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
-		http.Error(w, fmt.Sprintf("get policy %s for project %s", policy, projectID), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypePolicy)
+		policyResponse(w, &compute.SecurityPolicy{})
 		return
 	}
 
@@ -65,25 +61,21 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 
 	if ok, err := h.securityClient.UpdatePolicy(h.ctx, &resource, projectID, policy); !ok {
 		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypePolicy); !ok {
-				policyResponse(w, &compute.SecurityPolicy{})
-				return
-			}
 			h.log.Errorf("failed to get policy %s: %v", policy, err)
-			http.Error(w, fmt.Sprintf("get policy %s for project %s", policy, projectID), http.StatusInternalServerError)
+			h.HttpError(err, w, projectID, securityTypePolicy)
+			policyResponse(w, &compute.SecurityPolicy{})
 			return
 		}
 	}
 
 	w.WriteHeader(http.StatusOK)
+	return
 }
 
 func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 	h.log.WithFields(logrus.Fields{
 		"method": "UpdateRule",
 	})
-
-	fmt.Println("yala")
 
 	projectID := mux.Vars(r)["project"]
 	policy := mux.Vars(r)["policy"]
@@ -94,7 +86,7 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := io.ReadAll(r.Body)
 	if err != nil || len(reqBody) == 0 {
 		http.Error(w, "error body", http.StatusBadRequest)
 		return
@@ -117,12 +109,9 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 
 	currentRule, err := h.getRule(&p, projectID, policy)
 	if err != nil {
-		if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-			ruleResponse(w, &compute.SecurityPolicyRule{})
-			return
-		}
 		h.log.Errorf("failed to get rule %s: %v", priority, err)
-		http.Error(w, fmt.Sprintf("get rule %s for project %s", priority, projectID), http.StatusInternalServerError)
+		h.HttpError(err, w, projectID, securityTypeRule)
+		ruleResponse(w, &compute.SecurityPolicyRule{})
 		return
 	}
 
@@ -136,14 +125,13 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 
 	if ok, err := h.securityClient.UpdateRule(h.ctx, &resource, projectID, policy); !ok {
 		if err != nil {
-			if ok := h.HttpError(err, w, projectID, securityTypeRule); !ok {
-				ruleResponse(w, &compute.SecurityPolicyRule{})
-				return
-			}
-			h.log.Errorf("failed to get rule %s: %v", priority, err)
-			http.Error(w, fmt.Sprintf("get rule %s for project %s", priority, projectID), http.StatusInternalServerError)
+			h.log.Errorf("failed to update rule %s: %v", priority, err)
+			h.HttpError(err, w, projectID, securityTypeRule)
+			ruleResponse(w, &compute.SecurityPolicyRule{})
 			return
 		}
 	}
+
 	w.WriteHeader(http.StatusOK)
+	return
 }
