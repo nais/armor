@@ -24,9 +24,11 @@ bin/armor
 
 ### Post
 
+NB requires policy or rule to be specified in the body.
+
 `/projects/{project}/policies/{policy}/rules`  
 `/projects/{project}/policies/{policy}`  
-`/projects/{project}/policies/{policy}/backendservices/{backend}`  
+`/projects/{project}/policies/{policy}/backendServices/{backend}`  
 
 ### Delete
 
@@ -34,6 +36,8 @@ bin/armor
 `/projects/{project}/policies/{policy}/rules/{priority}`  
 
 ### Patch
+
+NB requires policy or rule to be specified in the body.
 
 `/projects/{project}/policies/{policy}`  
 `/projects/{project}/policies/{policy}/rules/{priority}`  

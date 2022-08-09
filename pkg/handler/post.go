@@ -16,7 +16,7 @@ import (
 const (
 	EndpointCreatePolicy     = "/projects/{project}/policies"
 	EndpointCreateRule       = "/projects/{project}/policies/{policy}/rules"
-	EndpointSetPolicyBackend = "/projects/{project}/policies/{policy}/backendservices/{backend}"
+	EndpointSetPolicyBackend = "/projects/{project}/policies/{policy}/backendServices/{backend}"
 )
 
 func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
