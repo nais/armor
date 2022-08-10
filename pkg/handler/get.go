@@ -39,10 +39,8 @@ func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.log.Debug("got policy: ", resource)
-
 	response(w, interface{}(resource))
 	return
-
 }
 
 func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
@@ -76,7 +74,6 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.log.Debug("got policies: ", policies)
-
 	response(w, interface{}(policies))
 	return
 }
@@ -111,7 +108,6 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.log.Debug("got rule: ", resource)
-
 	response(w, interface{}(resource))
 	return
 }
@@ -122,10 +118,10 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 	})
 
 	projectID := mux.Vars(r)["project"]
-	filter := r.URL.Query().Get("filter")
+	ruleType := r.URL.Query().Get("rule-type")
 	version := r.URL.Query().Get("version")
 
-	if ok, value := parse(projectID, filter, version); !ok {
+	if ok, value := parse(projectID, ruleType, version); !ok {
 		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
 		return
 	}
@@ -141,7 +137,7 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 
 	h.log.Debug("got pre configured rules: ", resource)
 
-	filteredResponse = filterResult(filter, version, resource)
+	filteredResponse = filterResult(ruleType, version, resource.GetPreconfiguredExpressionSets().GetWafRules().GetExpressionSets())
 	response(w, interface{}(filteredResponse))
 	return
 }
@@ -177,6 +173,5 @@ func (h *Handler) GetBackendServices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.log.Debug("got backend services: ", backends)
-
 	response(w, interface{}(backends))
 }

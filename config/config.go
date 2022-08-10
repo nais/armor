@@ -13,11 +13,13 @@ import (
 const (
 	DevelopmentMode = "development-mode"
 	Port            = "port"
+	LogLevel        = "log-level"
 )
 
 type Config struct {
 	DevelopmentMode bool   `json:"development-mode"`
 	Port            string `json:"port"`
+	LogLevel        string `json:"log-level"`
 }
 
 func init() {
@@ -35,6 +37,7 @@ func init() {
 
 	flag.String(DevelopmentMode, "false", "Toggle for development mode.")
 	flag.String(Port, ":8080", "The address the metric endpoint binds to.")
+	flag.String(LogLevel, "debug", "The log level to use.")
 }
 
 func NewConfig() (*Config, error) {

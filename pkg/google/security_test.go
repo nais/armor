@@ -122,5 +122,4 @@ func FakeSecurityClient(ctx context.Context, opts []option.ClientOption) (*Secur
 	}
 	client := NewSecurityClient(cfg, ctx, log.WithField("component", "fake-client"), opts...)
 	return client, nil
-
 }

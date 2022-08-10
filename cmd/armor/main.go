@@ -24,6 +24,13 @@ func main() {
 		log.WithError(err).Fatal("new config")
 	}
 
+	logLevel, err := logrus.ParseLevel(cfg.LogLevel)
+	if err != nil {
+		log.WithError(err).Fatal("log level")
+	}
+
+	log.Level = logLevel
+
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 	defer stop()
 
@@ -73,6 +80,7 @@ func SetupConfig() (*config.Config, error) {
 	if err = cfg.Validate([]string{
 		config.DevelopmentMode,
 		config.Port,
+		config.LogLevel,
 	}); err != nil {
 		return nil, err
 	}

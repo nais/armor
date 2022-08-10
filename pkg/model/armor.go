@@ -9,8 +9,7 @@ import (
 )
 
 type ArmorRequestPolicy struct {
-	DefaultRuleAction string                  `json:"default_rule_action,omitempty"`
-	SecurityPolicy    *compute.SecurityPolicy `json:"policy"`
+	SecurityPolicy *compute.SecurityPolicy `json:"policy"`
 }
 
 type ArmorRequestRule struct {

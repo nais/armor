@@ -10,6 +10,8 @@ import (
 func SetupHttpRouter(h *Handler) *mux.Router {
 	log.WithField("method", "SetupHttpRouter").Debug("setting up http router")
 	r := mux.NewRouter().StrictSlash(true)
+	r.Use(commonMiddleware)
+
 	r.HandleFunc(EndpointIsAlive, h.isAlive).Methods(http.MethodGet)
 	r.HandleFunc(EndpointIsReady, h.isReady).Methods(http.MethodGet)
 	// Policy
@@ -29,4 +31,11 @@ func SetupHttpRouter(h *Handler) *mux.Router {
 	r.HandleFunc(EndpointSetPolicyBackend, h.SetPolicyBackend).Methods(http.MethodPost)
 	r.HandleFunc(EndpointGetBackendServices, h.GetBackendServices).Methods(http.MethodGet)
 	return r
+}
+
+func commonMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Type", "application/json")
+		next.ServeHTTP(w, r)
+	})
 }

@@ -4,44 +4,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
-	"google.golang.org/protobuf/proto"
 	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-func defaultRule(defaultRuleAction string) *compute.SecurityPolicyRule {
-	if len(defaultRuleAction) == 0 {
-		defaultRuleAction = "deny(403)"
-	}
-
-	matcher := &compute.SecurityPolicyRuleMatcher{
-		Config: &compute.SecurityPolicyRuleMatcherConfig{
-			SrcIpRanges: []string{
-				"*",
-			},
-		},
-		VersionedExpr: proto.String(compute.SecurityPolicyRuleMatcher_SRC_IPS_V1.String()),
-	}
-
-	action := defaultRuleAction
-	return &compute.SecurityPolicyRule{
-		Action: &action,
-		// lowest priority
-		Priority:    proto.Int32(2147483647),
-		Description: proto.String("Default rule, higher priority overrides it"),
-		Match:       matcher,
-	}
-}
-
-func filterResult(filter, version string, resource *compute.SecurityPoliciesListPreconfiguredExpressionSetsResponse) (filteredResponse []*compute.WafExpressionSet) {
-	if filter == "" {
-		filteredResponse = resource.GetPreconfiguredExpressionSets().GetWafRules().GetExpressionSets()
+func filterResult(ruleType, version string, resource []*compute.WafExpressionSet) (filteredResponse []*compute.WafExpressionSet) {
+	if ruleType == "" {
+		filteredResponse = resource
 	} else {
-		for _, expression := range resource.GetPreconfiguredExpressionSets().GetWafRules().GetExpressionSets() {
+		for _, expression := range resource {
 			// v33 is the latest version of preconfigured rules
-			if strings.Contains(expression.GetId(), fmt.Sprintf("%s-%s", filter, version)) {
+			if strings.Contains(expression.GetId(), fmt.Sprintf("%s-%s", ruleType, version)) {
 				filteredResponse = append(filteredResponse, expression)
 			}
 		}
@@ -55,7 +30,6 @@ func response(w http.ResponseWriter, response interface{}) {
 		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
 }
 
 func parse(input ...string) (bool, string) {

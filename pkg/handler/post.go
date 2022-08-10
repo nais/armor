@@ -48,13 +48,11 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.Errorf("error creating policy %v", err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
-		response(w, interface{}(&compute.SecurityPolicy{}))
 		return
 	}
 
 	h.log.Debug("inserted policy ", resource.Name)
 	w.WriteHeader(http.StatusCreated)
-	response(w, interface{}([]*compute.SecurityPolicy{resource}))
 	return
 }
 
@@ -102,14 +100,12 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			h.log.Errorf("error adding rule %v", err)
 			h.HttpError(err, w, projectID, securityTypeRule)
-			response(w, interface{}(&compute.SecurityPolicy{}))
 			return
 		}
 	}
 
 	h.log.Debug("inserted rule ", resource.Priority)
 	w.WriteHeader(http.StatusCreated)
-	response(w, interface{}(resource))
 	return
 }
 

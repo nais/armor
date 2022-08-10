@@ -1,0 +1,1796 @@
+[
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id942110-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942120-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942140-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942150-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942160-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942170-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942180-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942190-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942200-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942210-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942220-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942230-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942240-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942250-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942251-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942260-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942270-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942280-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942290-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942300-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942310-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942320-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942330-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942340-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942350-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942360-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942380-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942390-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942400-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942410-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942420-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942421-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942430-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942431-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942432-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942440-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942450-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942460-sqli"
+      }
+    ],
+    "id": "sqli-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id941110-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941120-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941130-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941140-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941150-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941160-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941170-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941180-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941190-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941200-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941210-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941220-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941230-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941240-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941250-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941260-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941270-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941280-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941290-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941300-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941310-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941320-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941330-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941340-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941350-xss"
+      }
+    ],
+    "id": "xss-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id930100-lfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id930110-lfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id930120-lfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id930130-lfi"
+      }
+    ],
+    "id": "lfi-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id932100-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932105-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932110-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932115-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932120-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932130-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932140-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932150-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932160-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932170-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932171-rce"
+      }
+    ],
+    "id": "rce-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id931100-rfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id931110-rfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id931120-rfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id931130-rfi"
+      }
+    ],
+    "id": "rfi-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id943100-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030001-id943110-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030001-id943120-sessionfixation"
+      }
+    ],
+    "id": "sessionfixation-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id913100-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913110-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913120-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913101-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913102-scannerdetection"
+      }
+    ],
+    "id": "scannerdetection-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id921100-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921110-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921120-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921130-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921140-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921150-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921160-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921151-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921170-protocolattack"
+      }
+    ],
+    "id": "protocolattack-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id933100-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933110-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933120-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933130-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933140-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933150-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933160-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933170-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933180-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933151-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933131-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933161-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933111-php"
+      }
+    ],
+    "id": "php-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id911100-methodenforcement"
+      }
+    ],
+    "id": "methodenforcement-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id942110-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942120-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942140-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942150-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942160-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942170-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942180-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942190-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942200-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942210-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942220-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942230-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942240-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942250-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942251-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942260-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942270-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942280-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942290-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942300-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942310-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942320-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942330-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942340-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942350-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942360-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942380-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942390-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942400-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942410-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942420-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942421-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942430-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942431-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942432-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942440-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942450-sqli"
+      },
+      {
+        "id": "owasp-crs-v030001-id942460-sqli"
+      }
+    ],
+    "id": "sqli-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id941110-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941120-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941130-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941140-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941150-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941160-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941170-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941180-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941190-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941200-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941210-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941220-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941230-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941240-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941250-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941260-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941270-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941280-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941290-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941300-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941310-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941320-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941330-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941340-xss"
+      },
+      {
+        "id": "owasp-crs-v030001-id941350-xss"
+      }
+    ],
+    "id": "xss-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id930100-lfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id930110-lfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id930120-lfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id930130-lfi"
+      }
+    ],
+    "id": "lfi-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id932100-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932105-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932110-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932115-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932120-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932130-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932140-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932150-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932160-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932170-rce"
+      },
+      {
+        "id": "owasp-crs-v030001-id932171-rce"
+      }
+    ],
+    "id": "rce-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id931100-rfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id931110-rfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id931120-rfi"
+      },
+      {
+        "id": "owasp-crs-v030001-id931130-rfi"
+      }
+    ],
+    "id": "rfi-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id943100-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030001-id943110-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030001-id943120-sessionfixation"
+      }
+    ],
+    "id": "sessionfixation-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id913100-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913110-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913120-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913101-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030001-id913102-scannerdetection"
+      }
+    ],
+    "id": "scannerdetection-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id921100-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921110-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921120-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921130-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921140-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921150-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921160-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921151-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030001-id921170-protocolattack"
+      }
+    ],
+    "id": "protocolattack-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id933100-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933110-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933120-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933130-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933140-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933150-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933160-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933170-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933180-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933151-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933131-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933161-php"
+      },
+      {
+        "id": "owasp-crs-v030001-id933111-php"
+      }
+    ],
+    "id": "php-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id911100-methodenforcement"
+      }
+    ],
+    "id": "methodenforcement-stable"
+  },
+  {
+    "id": "sourceiplist-fastly"
+  },
+  {
+    "id": "sourceiplist-cloudflare"
+  },
+  {
+    "id": "sourceiplist-imperva"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030001-id044228-cve"
+      },
+      {
+        "id": "owasp-crs-v030001-id144228-cve"
+      },
+      {
+        "id": "owasp-crs-v030001-id244228-cve"
+      },
+      {
+        "id": "owasp-crs-v030001-id344228-cve"
+      }
+    ],
+    "id": "cve-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id942100-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942101-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942140-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942160-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942170-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942190-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942220-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942230-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942240-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942250-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942270-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942280-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942290-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942320-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942350-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942360-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942500-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942110-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942120-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942130-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942150-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942180-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942200-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942210-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942260-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942300-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942310-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942330-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942340-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942361-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942370-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942380-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942390-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942400-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942410-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942470-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942480-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942430-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942440-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942450-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942510-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942251-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942490-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942420-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942431-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942460-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942511-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942421-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942432-sqli"
+      }
+    ],
+    "id": "sqli-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id941100-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941101-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941110-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941120-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941130-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941140-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941160-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941170-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941180-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941190-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941200-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941210-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941220-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941230-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941240-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941250-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941260-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941270-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941280-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941290-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941300-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941310-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941350-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941360-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941370-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941150-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941320-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941330-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941340-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941380-xss"
+      }
+    ],
+    "id": "xss-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id930100-lfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id930110-lfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id930120-lfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id930130-lfi"
+      }
+    ],
+    "id": "lfi-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id932100-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932105-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932110-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932115-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932120-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932130-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932140-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932150-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932160-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932170-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932171-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932180-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932200-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932106-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932190-rce"
+      }
+    ],
+    "id": "rce-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id931100-rfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id931110-rfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id931120-rfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id931130-rfi"
+      }
+    ],
+    "id": "rfi-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id911100-methodenforcement"
+      }
+    ],
+    "id": "methodenforcement-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id933100-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933110-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933120-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933130-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933140-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933200-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933150-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933160-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933170-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933180-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933210-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933151-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933131-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933161-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933111-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933190-php"
+      }
+    ],
+    "id": "php-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id921110-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921120-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921130-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921140-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921150-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921160-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921190-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921200-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921151-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921170-protocolattack"
+      }
+    ],
+    "id": "protocolattack-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id913100-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913110-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913120-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913101-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913102-scannerdetection"
+      }
+    ],
+    "id": "scannerdetection-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id943100-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030301-id943110-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030301-id943120-sessionfixation"
+      }
+    ],
+    "id": "sessionfixation-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id944100-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944110-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944120-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944130-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944200-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944210-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944240-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944250-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944300-java"
+      }
+    ],
+    "id": "java-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id934100-nodejs"
+      }
+    ],
+    "id": "nodejs-v33-canary"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id942140-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942160-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942170-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942190-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942220-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942230-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942240-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942250-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942270-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942280-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942290-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942320-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942350-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942360-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942500-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942110-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942120-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942130-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942150-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942180-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942200-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942210-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942260-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942300-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942310-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942330-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942340-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942361-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942370-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942380-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942390-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942400-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942410-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942470-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942480-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942430-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942440-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942450-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942510-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942251-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942490-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942420-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942431-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942460-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942511-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942421-sqli"
+      },
+      {
+        "id": "owasp-crs-v030301-id942432-sqli"
+      }
+    ],
+    "id": "sqli-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id941110-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941120-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941130-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941140-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941160-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941170-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941180-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941190-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941200-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941210-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941220-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941230-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941240-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941250-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941260-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941270-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941280-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941290-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941300-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941310-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941350-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941360-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941370-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941150-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941320-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941330-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941340-xss"
+      },
+      {
+        "id": "owasp-crs-v030301-id941380-xss"
+      }
+    ],
+    "id": "xss-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id930100-lfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id930110-lfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id930120-lfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id930130-lfi"
+      }
+    ],
+    "id": "lfi-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id932100-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932105-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932110-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932115-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932120-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932130-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932140-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932150-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932160-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932170-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932171-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932180-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932200-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932106-rce"
+      },
+      {
+        "id": "owasp-crs-v030301-id932190-rce"
+      }
+    ],
+    "id": "rce-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id931100-rfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id931110-rfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id931120-rfi"
+      },
+      {
+        "id": "owasp-crs-v030301-id931130-rfi"
+      }
+    ],
+    "id": "rfi-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id911100-methodenforcement"
+      }
+    ],
+    "id": "methodenforcement-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id933100-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933110-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933120-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933130-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933140-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933200-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933150-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933160-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933170-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933180-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933210-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933151-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933131-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933161-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933111-php"
+      },
+      {
+        "id": "owasp-crs-v030301-id933190-php"
+      }
+    ],
+    "id": "php-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id921110-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921120-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921130-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921140-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921150-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921160-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921190-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921200-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921151-protocolattack"
+      },
+      {
+        "id": "owasp-crs-v030301-id921170-protocolattack"
+      }
+    ],
+    "id": "protocolattack-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id913100-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913110-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913120-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913101-scannerdetection"
+      },
+      {
+        "id": "owasp-crs-v030301-id913102-scannerdetection"
+      }
+    ],
+    "id": "scannerdetection-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id943100-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030301-id943110-sessionfixation"
+      },
+      {
+        "id": "owasp-crs-v030301-id943120-sessionfixation"
+      }
+    ],
+    "id": "sessionfixation-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id944100-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944110-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944120-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944130-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944200-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944210-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944240-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944250-java"
+      },
+      {
+        "id": "owasp-crs-v030301-id944300-java"
+      }
+    ],
+    "id": "java-v33-stable"
+  },
+  {
+    "expressions": [
+      {
+        "id": "owasp-crs-v030301-id934100-nodejs"
+      }
+    ],
+    "id": "nodejs-v33-stable"
+  }
+]

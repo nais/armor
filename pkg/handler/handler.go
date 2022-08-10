@@ -43,13 +43,6 @@ func (h *Handler) createPolicy(request *model.ArmorRequestPolicy, projectID stri
 		return nil, fmt.Errorf("policy name is required")
 	}
 
-	if parsedPolicy.Rules != nil {
-		if len(parsedPolicy.Rules) < 1 {
-			securityPolicyRule := defaultRule(request.DefaultRuleAction)
-			parsedPolicy.Rules = append(parsedPolicy.Rules, securityPolicyRule)
-		}
-	}
-
 	if ok, err := h.securityClient.CreatePolicy(h.ctx, parsedPolicy, projectID); !ok {
 		if err != nil {
 			return nil, err
