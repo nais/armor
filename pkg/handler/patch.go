@@ -43,7 +43,7 @@ func (h *Handler) UpdatePolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	currentPolicy, err := h.getPolicy(projectID, policy)
+	currentPolicy, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
 	if err != nil {
 		h.log.Errorf("failed to get policy %s: %v", policy, err)
 		h.HttpError(err, w, projectID, securityTypePolicy)
@@ -107,7 +107,7 @@ func (h *Handler) UpdateRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	currentRule, err := h.getRule(&p, projectID, policy)
+	currentRule, err := h.securityClient.GetRule(h.ctx, &p, projectID, policy)
 	if err != nil {
 		h.log.Errorf("failed to get rule %s: %v", priority, err)
 		h.HttpError(err, w, projectID, securityTypeRule)

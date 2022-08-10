@@ -1,9 +1,13 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
 	"google.golang.org/protobuf/proto"
+	"net/http"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -43,4 +47,36 @@ func filterResult(filter, version string, resource *compute.SecurityPoliciesList
 		}
 	}
 	return filteredResponse
+}
+
+func response(w http.ResponseWriter, response interface{}) {
+	err := json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+}
+
+func parse(input ...string) (bool, string) {
+	// This will only match sequences of one or more sequences
+	// of alphanumeric characters separated by a single -
+	regex := "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+	for _, v := range input {
+		if v == "" {
+			continue
+		}
+		if !regexp.MustCompile(regex).MatchString(v) {
+			return false, v
+		}
+	}
+	return true, ""
+}
+
+func parseInt(i string) (int32, error) {
+	p, err := strconv.ParseInt(i, 10, 32)
+	if err != nil {
+		return int32(0), err
+	}
+	return int32(p), nil
 }

@@ -2,17 +2,14 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
-	"regexp"
-	"strconv"
-
 	"github.com/nais/armor/pkg/google"
+	"github.com/nais/armor/pkg/model"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/googleapi"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
+	"net/http"
 )
 
 type Handler struct {
@@ -36,20 +33,29 @@ func NewHandler(ctx context.Context, securityClient *google.SecurityClient, serv
 	}
 }
 
-func (h *Handler) getPolicy(projectID, policy string) (*compute.SecurityPolicy, error) {
-	resource, err := h.securityClient.GetPolicy(h.ctx, projectID, policy)
+func (h *Handler) createPolicy(request *model.ArmorRequestPolicy, projectID string) (*compute.SecurityPolicy, error) {
+	parsedPolicy, err := request.ParsePolicy()
 	if err != nil {
 		return nil, err
 	}
-	return resource, nil
-}
 
-func (h *Handler) getRule(priority *int32, projectID, policy string) (*compute.SecurityPolicyRule, error) {
-	resource, err := h.securityClient.GetRule(h.ctx, priority, projectID, policy)
-	if err != nil {
-		return nil, err
+	if parsedPolicy.Name == nil {
+		return nil, fmt.Errorf("policy name is required")
 	}
-	return resource, nil
+
+	if parsedPolicy.Rules != nil {
+		if len(parsedPolicy.Rules) < 1 {
+			securityPolicyRule := defaultRule(request.DefaultRuleAction)
+			parsedPolicy.Rules = append(parsedPolicy.Rules, securityPolicyRule)
+		}
+	}
+
+	if ok, err := h.securityClient.CreatePolicy(h.ctx, parsedPolicy, projectID); !ok {
+		if err != nil {
+			return nil, err
+		}
+	}
+	return parsedPolicy, nil
 }
 
 func (h *Handler) HttpError(err error, w http.ResponseWriter, projectID, resource string) {
@@ -74,36 +80,4 @@ func ErrorType(err error, code int) bool {
 		}
 	}
 	return false
-}
-
-func response(w http.ResponseWriter, response interface{}) {
-	err := json.NewEncoder(w).Encode(response)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-}
-
-func parse(input ...string) (bool, string) {
-	// This will only match sequences of one or more sequences
-	// of alphanumeric characters separated by a single -
-	regex := "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
-	for _, v := range input {
-		if v == "" {
-			continue
-		}
-		if !regexp.MustCompile(regex).MatchString(v) {
-			return false, v
-		}
-	}
-	return true, ""
-}
-
-func parseInt(i string) (int32, error) {
-	p, err := strconv.ParseInt(i, 10, 32)
-	if err != nil {
-		return int32(0), err
-	}
-	return int32(p), nil
 }

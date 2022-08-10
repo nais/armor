@@ -38,6 +38,8 @@ func (h *Handler) GetPolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.log.Debug("got policy: ", resource)
+
 	response(w, interface{}(resource))
 	return
 
@@ -73,6 +75,8 @@ func (h *Handler) GetPolicies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.log.Debug("got policies: ", policies)
+
 	response(w, interface{}(policies))
 	return
 }
@@ -106,6 +110,8 @@ func (h *Handler) GetRule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.log.Debug("got rule: ", resource)
+
 	response(w, interface{}(resource))
 	return
 }
@@ -132,6 +138,8 @@ func (h *Handler) GetPreConfiguredRules(w http.ResponseWriter, r *http.Request) 
 		response(w, interface{}(filteredResponse))
 		return
 	}
+
+	h.log.Debug("got pre configured rules: ", resource)
 
 	filteredResponse = filterResult(filter, version, resource)
 	response(w, interface{}(filteredResponse))
@@ -167,6 +175,8 @@ func (h *Handler) GetBackendServices(w http.ResponseWriter, r *http.Request) {
 		response(w, interface{}(backends))
 		return
 	}
+
+	h.log.Debug("got backend services: ", backends)
 
 	response(w, interface{}(backends))
 }

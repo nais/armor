@@ -1,12 +1,14 @@
 package handler
 
 import (
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
 func SetupHttpRouter(h *Handler) *mux.Router {
+	log.WithField("method", "SetupHttpRouter").Debug("setting up http router")
 	r := mux.NewRouter().StrictSlash(true)
 	r.HandleFunc(EndpointIsAlive, h.isAlive).Methods(http.MethodGet)
 	r.HandleFunc(EndpointIsReady, h.isReady).Methods(http.MethodGet)

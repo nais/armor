@@ -33,6 +33,7 @@ func (h *Handler) DeletePolicy(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	h.log.Debug("deleted policy: ", policy)
 	w.WriteHeader(http.StatusOK)
 	return
 }
@@ -67,6 +68,7 @@ func (h *Handler) DeleteRule(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	h.log.Debug("deleted rule: ", policy)
 	w.WriteHeader(http.StatusOK)
 	return
 }

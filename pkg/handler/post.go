@@ -52,36 +52,10 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.log.Debug("inserted policy ", resource.Name)
 	w.WriteHeader(http.StatusCreated)
 	response(w, interface{}([]*compute.SecurityPolicy{resource}))
 	return
-}
-
-func (h *Handler) createPolicy(request *model.ArmorRequestPolicy, projectID string) (*compute.SecurityPolicy, error) {
-	parsedPolicy, err := request.ParsePolicy()
-	if err != nil {
-		return nil, err
-	}
-
-	if parsedPolicy.Name == nil {
-		return nil, fmt.Errorf("policy name is required")
-	}
-
-	if parsedPolicy.Rules != nil {
-		if len(parsedPolicy.Rules) < 1 {
-			securityPolicyRule := defaultRule(request.DefaultRuleAction)
-			parsedPolicy.Rules = append(parsedPolicy.Rules, securityPolicyRule)
-		}
-	}
-
-	if ok, err := h.securityClient.CreatePolicy(h.ctx, parsedPolicy, projectID); !ok {
-		if err != nil {
-			return nil, err
-		}
-
-		h.log.Info("inserted policy ", parsedPolicy.Name)
-	}
-	return parsedPolicy, nil
 }
 
 func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
@@ -112,7 +86,6 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resource, err := request.ParseRule()
-
 	if ok, err := validation.Rule(resource); !ok {
 		h.log.Errorf("error validation of rule %v", err)
 		http.Error(w, fmt.Sprintf("validation of rule: %v", err), http.StatusBadRequest)
@@ -134,12 +107,17 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	h.log.Debug("inserted rule ", resource.Priority)
 	w.WriteHeader(http.StatusCreated)
 	response(w, interface{}(resource))
 	return
 }
 
 func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
+	h.log.WithFields(logrus.Fields{
+		"method": "SetPolicyBackend",
+	})
+
 	projectID := mux.Vars(r)["project"]
 	policy := mux.Vars(r)["policy"]
 	backend := mux.Vars(r)["backend"]
@@ -166,5 +144,6 @@ func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	h.log.Debug("policy backend is set to ", backend)
 	w.WriteHeader(http.StatusCreated)
 }
