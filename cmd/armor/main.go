@@ -36,7 +36,7 @@ func main() {
 
 	var opts []option.ClientOption
 	gSecurityClient := google.NewSecurityClient(cfg, ctx, log.WithField("component", "armor-security-client"), opts...)
-	gServiceClient := google.NewService(ctx, log.WithField("component", "armor-serice-client"))
+	gServiceClient := google.NewServiceClient(ctx, log.WithField("component", "armor-serice-client"))
 
 	h := handler.NewHandler(ctx, gSecurityClient, gServiceClient, log.WithField("system", "armor"))
 	router := handler.SetupHttpRouter(h)

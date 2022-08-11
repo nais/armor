@@ -21,17 +21,12 @@ jobs:
 
       - name: Extract version of Go to use
         run: echo "GOVERSION=$(cat go.mod | grep -w "go" | awk ' { print $2 } ' | grep -w "^[^v]")" >> $GITHUB_ENV
+
       - uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GOVERSION }}
-      - name: Cache Go modules
-        uses: actions/cache@v3
-        id: go-mod-cache
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          cache: true
+
       - name: Test armor
         run: make test
 

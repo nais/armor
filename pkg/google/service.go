@@ -13,7 +13,7 @@ type ServiceClient struct {
 	Client *compute.BackendServicesClient
 }
 
-func NewService(ctx context.Context, log *logrus.Entry) *ServiceClient {
+func NewServiceClient(ctx context.Context, log *logrus.Entry) *ServiceClient {
 	c, err := compute.NewBackendServicesRESTClient(ctx)
 	if err != nil {
 		fmt.Printf("NewBackendServicesRESTClient: %v", err)
