@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/nais/armor/config"
 	"github.com/nais/armor/pkg/google"
 	"github.com/nais/armor/pkg/model"
 	"github.com/sirupsen/logrus"
@@ -13,10 +14,11 @@ import (
 )
 
 type Handler struct {
+	ctx            context.Context
 	log            *logrus.Entry
+	cfg            *config.Config
 	securityClient *google.SecurityClient
 	serviceClient  *google.ServiceClient
-	ctx            context.Context
 }
 
 const (
@@ -24,12 +26,13 @@ const (
 	securityTypeRule   = "rule"
 )
 
-func NewHandler(ctx context.Context, securityClient *google.SecurityClient, serviceClient *google.ServiceClient, log *logrus.Entry) *Handler {
+func NewHandler(ctx context.Context, cfg *config.Config, securityClient *google.SecurityClient, serviceClient *google.ServiceClient, log *logrus.Entry) *Handler {
 	return &Handler{
 		log:            log.WithField("subsystem", "handler"),
 		securityClient: securityClient,
 		serviceClient:  serviceClient,
 		ctx:            ctx,
+		cfg:            cfg,
 	}
 }
 
@@ -57,11 +60,11 @@ func (h *Handler) HttpError(err error, w http.ResponseWriter, projectID, resourc
 	}
 	if ErrorType(err, http.StatusBadRequest) {
 		h.log.Warnf("%s: %v", resource, err)
-		http.Error(w, fmt.Sprintf("%s resource %s: %s", resource, projectID, err.Error()), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("%s resource %s: %s", resource, projectID, err.Error()), http.StatusBadRequest)
 	}
 	if ErrorType(err, http.StatusConflict) {
 		h.log.Warnf("failed %s: %v", resource, err)
-		http.Error(w, fmt.Sprintf("%s exists in %s", resource, projectID), http.StatusConflict)
+		HttpError(w, fmt.Sprintf("%s exists in %s", resource, projectID), http.StatusConflict)
 	}
 }
 

@@ -6,6 +6,7 @@ import (
 	"github.com/nais/armor/pkg/validation"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/nais/armor/pkg/model"
@@ -26,13 +27,13 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 
 	projectID := mux.Vars(r)["project"]
 	if ok, value := parse(projectID); !ok {
-		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
 		return
 	}
 
 	reqBody, err := io.ReadAll(r.Body)
 	if err != nil || len(reqBody) == 0 {
-		http.Error(w, "error body", http.StatusBadRequest)
+		HttpError(w, "error body", http.StatusBadRequest)
 		return
 	}
 
@@ -40,7 +41,7 @@ func (h *Handler) CreatePolicy(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(reqBody, &request)
 	if err != nil {
 		h.log.Errorf("parse policy %v", err)
-		http.Error(w, fmt.Sprintf("parse policy for project %s", projectID), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("parse policy for project %s", projectID), http.StatusBadRequest)
 		return
 	}
 
@@ -65,13 +66,13 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 	policy := mux.Vars(r)["policy"]
 
 	if ok, value := parse(projectID, policy); !ok {
-		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
 		return
 	}
 
 	reqBody, err := io.ReadAll(r.Body)
 	if err != nil || len(reqBody) == 0 {
-		http.Error(w, "error body", http.StatusBadRequest)
+		HttpError(w, "error body", http.StatusBadRequest)
 		return
 	}
 
@@ -79,20 +80,25 @@ func (h *Handler) CreateRule(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(reqBody, &request)
 	if err != nil {
 		h.log.Errorf("parse rule %v", err)
-		http.Error(w, fmt.Sprintf("parse request body for project %s: policy %s", projectID, policy), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("parse request body for project %s: policy %s", projectID, policy), http.StatusBadRequest)
 		return
 	}
 
 	resource, err := request.ParseRule()
 	if ok, err := validation.Rule(resource); !ok {
 		h.log.Errorf("error validation of rule %v", err)
-		http.Error(w, fmt.Sprintf("validation of rule: %v", err), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("validation of rule: %v", err), http.StatusBadRequest)
+		return
+	}
+
+	if h.cfg.IsProtectedRule(strconv.Itoa(int(*resource.Priority))) {
+		HttpError(w, fmt.Sprintf("forbidden to create protected priority %d", *resource.Priority), http.StatusBadRequest)
 		return
 	}
 
 	if err != nil {
 		h.log.Errorf("parse rule %v", err)
-		http.Error(w, fmt.Sprintf("parse rule for project %s: policy %s", projectID, policy), http.StatusInternalServerError)
+		HttpError(w, fmt.Sprintf("parse rule for project %s: policy %s", projectID, policy), http.StatusInternalServerError)
 		return
 	}
 
@@ -119,7 +125,7 @@ func (h *Handler) SetPolicyBackend(w http.ResponseWriter, r *http.Request) {
 	backend := mux.Vars(r)["backend"]
 
 	if ok, value := parse(projectID, policy, backend); !ok {
-		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
 		return
 	}
 

@@ -19,14 +19,14 @@ func main() {
 	log := logrus.New()
 	log.Formatter = &logrus.JSONFormatter{}
 
-	cfg, err := SetupConfig()
+	cfg, err := config.SetupConfig()
 	if err != nil {
-		log.WithError(err).Fatal("new config")
+		log.WithError(err).Fatal("setting up new config")
 	}
 
 	logLevel, err := logrus.ParseLevel(cfg.LogLevel)
 	if err != nil {
-		log.WithError(err).Fatal("log level")
+		log.WithError(err).Fatal("setting log level")
 	}
 
 	log.Level = logLevel
@@ -38,7 +38,7 @@ func main() {
 	gSecurityClient := google.NewSecurityClient(cfg, ctx, log.WithField("component", "armor-security-client"), opts...)
 	gServiceClient := google.NewServiceClient(ctx, log.WithField("component", "armor-serice-client"))
 
-	h := handler.NewHandler(ctx, gSecurityClient, gServiceClient, log.WithField("system", "armor"))
+	h := handler.NewHandler(ctx, cfg, gSecurityClient, gServiceClient, log.WithField("system", "armor"))
 	router := handler.SetupHttpRouter(h)
 
 	server := http.Server{
@@ -69,20 +69,4 @@ func LogError(log *logrus.Logger, cancel context.CancelFunc, fn func() error) {
 		cancel()
 		log.WithError(err).Error("error")
 	}
-}
-
-func SetupConfig() (*config.Config, error) {
-	cfg, err := config.NewConfig()
-	if err != nil {
-		return nil, err
-	}
-
-	if err = cfg.Validate([]string{
-		config.DevelopmentMode,
-		config.Port,
-		config.LogLevel,
-	}); err != nil {
-		return nil, err
-	}
-	return cfg, nil
 }

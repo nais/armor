@@ -21,7 +21,7 @@ func (h *Handler) DeletePolicy(w http.ResponseWriter, r *http.Request) {
 	policy := mux.Vars(r)["policy"]
 
 	if ok, value := parse(projectID, policy); !ok {
-		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
 		return
 	}
 
@@ -48,7 +48,12 @@ func (h *Handler) DeleteRule(w http.ResponseWriter, r *http.Request) {
 	priority := mux.Vars(r)["priority"]
 
 	if ok, value := parse(projectID, policy, priority); !ok {
-		http.Error(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		HttpError(w, fmt.Sprintf("unkown parameter: %s", value), http.StatusBadRequest)
+		return
+	}
+
+	if h.cfg.IsProtectedRule(priority) {
+		HttpError(w, fmt.Sprintf("forbidden to delete protected rule %s", priority), http.StatusBadRequest)
 		return
 	}
 
@@ -56,7 +61,7 @@ func (h *Handler) DeleteRule(w http.ResponseWriter, r *http.Request) {
 	p, err := parseInt(priority)
 	if err != nil {
 		h.log.Errorf("failed to parse priority %s: %v", priority, err)
-		http.Error(w, fmt.Sprintf("parse priority: %s", priority), http.StatusInternalServerError)
+		HttpError(w, fmt.Sprintf("parse priority: %s", priority), http.StatusInternalServerError)
 		return
 	}
 

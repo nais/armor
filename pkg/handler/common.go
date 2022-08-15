@@ -1,10 +1,8 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
 	"google.golang.org/genproto/googleapis/cloud/compute/v1"
-	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
@@ -22,14 +20,6 @@ func filterResult(ruleType, version string, resource []*compute.WafExpressionSet
 		}
 	}
 	return filteredResponse
-}
-
-func response(w http.ResponseWriter, response interface{}) {
-	err := json.NewEncoder(w).Encode(response)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("encode %v", err), http.StatusInternalServerError)
-		return
-	}
 }
 
 func parse(input ...string) (bool, string) {
