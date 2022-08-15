@@ -1,22 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import app from "./App";
-import axios from "axios";
+import Footer from "./footer";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-async function fetchData() {
-    try {
-        const result = await axios.get("")
-        console.log(result.data)
-    } catch (error) {
-        console.error(error)
-    }
-}
-
-root.render(fetchData);
+root.render(
+    <React.StrictMode>
+        <h2 align={'center'}>NaaS Armor</h2>
+        <App/>
+        <Footer/>
+    </React.StrictMode>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
