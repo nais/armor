@@ -11,7 +11,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.8.0
-	google.golang.org/api v0.92.0
+	google.golang.org/api v0.93.0
 	google.golang.org/genproto v0.0.0-20220808204814-fd01256a5276
 )
 
