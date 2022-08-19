@@ -3,7 +3,7 @@ module github.com/nais/armor
 go 1.19
 
 require (
-	cloud.google.com/go/compute v1.8.0
+	cloud.google.com/go/compute v1.9.0
 	github.com/gorilla/mux v1.8.0
 	github.com/imdario/mergo v0.3.13
 	github.com/mitchellh/mapstructure v1.5.0
